@@ -1,1 +1,851 @@
-hola
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De $0 a $10,000,000 — Estudio de Producción</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0a0a0a; color:#e0e0e0; font-family:system-ui,sans-serif; min-height:100vh; }
+
+  /* HEADER */
+  .header {
+    background:linear-gradient(135deg,#0d1f0d,#0a0a0a);
+    border-bottom:1px solid #1a3a1a;
+    padding:16px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+  }
+  .logo { display:flex; align-items:center; gap:10px; }
+  .logo-icon { background:#00c853; border-radius:8px; padding:6px 10px; font-size:18px; }
+  .logo-text h1 { font-size:16px; font-weight:700; color:#fff; }
+  .logo-text p { font-size:11px; color:#666; }
+  .progreso-total {
+    background:#0d2a0d; border:1px solid #00c853;
+    border-radius:20px; padding:6px 14px;
+    font-size:12px; color:#00c853; font-weight:700;
+  }
+
+  /* TABS */
+  .tabs {
+    display:flex; background:#0d0d0d;
+    border-bottom:1px solid #1a1a1a;
+    overflow-x:auto; gap:0;
+  }
+  .tab {
+    flex:1; min-width:80px; padding:12px 8px;
+    text-align:center; cursor:pointer;
+    border-bottom:2px solid transparent;
+    font-size:12px; color:#666;
+    transition:all 0.2s;
+    white-space:nowrap;
+  }
+  .tab.activo { color:#00c853; border-bottom-color:#00c853; }
+  .tab span { display:block; font-size:10px; margin-top:2px; }
+
+  /* CONTENIDO */
+  .contenido { display:none; padding:16px; max-width:800px; margin:0 auto; }
+  .contenido.activo { display:block; }
+
+  /* API KEY */
+  .api-box {
+    background:#0d1f0d; border:1px solid #1a3a1a;
+    border-radius:12px; padding:16px; margin-bottom:20px;
+  }
+  .api-box label { font-size:11px; color:#666; letter-spacing:2px; display:block; margin-bottom:8px; }
+  .api-row { display:flex; gap:8px; }
+  .api-input {
+    flex:1; background:#0a0a0a; border:1px solid #1a3a1a;
+    border-radius:8px; padding:10px 14px;
+    color:#e0e0e0; font-size:13px; outline:none;
+  }
+  .api-input:focus { border-color:#00c853; }
+  .btn-api {
+    padding:10px 16px; background:#00c853; border:none;
+    border-radius:8px; color:#000; font-weight:700;
+    font-size:12px; cursor:pointer; white-space:nowrap;
+  }
+  .btn-api:hover { background:#00e676; }
+
+  /* INSTRUCCIONES */
+  .instrucciones {
+    background:#0d1a0d; border:1px solid #1a3a1a;
+    border-radius:10px; padding:14px; margin-bottom:20px;
+    font-size:12px; line-height:1.8; color:#888;
+  }
+  .instrucciones strong { color:#00c853; display:block; margin-bottom:6px; font-size:11px; letter-spacing:2px; }
+
+  /* IMAGEN REFERENCIA */
+  .ref-box {
+    background:#0d0d0d; border:2px dashed #1a3a1a;
+    border-radius:12px; padding:20px; text-align:center;
+    margin-bottom:20px; cursor:pointer; transition:border-color 0.2s;
+  }
+  .ref-box:hover { border-color:#00c853; }
+  .ref-box img { max-width:100%; max-height:200px; border-radius:8px; }
+  .ref-box p { color:#444; font-size:13px; margin-top:8px; }
+  .ref-box input { display:none; }
+
+  /* GENERACIÓN */
+  .gen-box {
+    background:#0d1f0d; border:1px solid #1a3a1a;
+    border-radius:12px; padding:16px; margin-bottom:20px;
+  }
+  .gen-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .gen-titulo { font-size:11px; letter-spacing:2px; color:#666; }
+  .gen-contador { font-size:24px; font-weight:700; color:#00c853; }
+  .gen-contador span { font-size:14px; color:#444; }
+  .barra-wrap { background:#0a0a0a; border-radius:4px; height:6px; margin-bottom:12px; overflow:hidden; }
+  .barra-fill { height:100%; background:linear-gradient(90deg,#00c853,#69f0ae); border-radius:4px; transition:width 0.5s; width:0%; }
+  .gen-estado { font-size:12px; color:#666; margin-bottom:12px; }
+  .btn-row { display:flex; gap:8px; }
+  .btn-generar {
+    flex:1; padding:12px; background:#00c853; border:none;
+    border-radius:8px; color:#000; font-weight:700;
+    font-size:13px; cursor:pointer; transition:all 0.2s;
+  }
+  .btn-generar:hover:not(:disabled) { background:#00e676; }
+  .btn-generar:disabled { background:#1a3a1a; color:#444; cursor:not-allowed; }
+  .btn-descargar-todo {
+    padding:12px 16px; background:#0d2a0d;
+    border:1px solid #00c853; border-radius:8px;
+    color:#00c853; font-size:12px; cursor:pointer;
+    font-weight:700; transition:all 0.2s;
+  }
+  .btn-descargar-todo:hover:not(:disabled) { background:#0d3a0d; }
+  .btn-descargar-todo:disabled { opacity:0.3; cursor:not-allowed; }
+
+  /* ESCENAS GRID */
+  .escenas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; }
+
+  .escena-card {
+    background:#0d0d0d; border:1px solid #1a1a1a;
+    border-radius:12px; overflow:hidden; transition:border-color 0.2s;
+  }
+  .escena-card.generando { border-color:#f5c842; box-shadow:0 0 16px rgba(245,200,66,0.1); }
+  .escena-card.lista { border-color:rgba(0,200,83,0.3); }
+  .escena-card.error { border-color:rgba(255,60,60,0.3); }
+
+  .escena-imagen {
+    width:100%; aspect-ratio:16/9;
+    background:#080808; display:flex;
+    align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .escena-imagen img { width:100%; height:100%; object-fit:cover; }
+  .escena-num {
+    position:absolute; bottom:6px; right:8px;
+    font-size:28px; font-weight:700;
+    color:rgba(255,255,255,0.05);
+  }
+  .escena-placeholder { color:#1a1a1a; font-size:12px; text-align:center; }
+  .spinner-small {
+    width:24px; height:24px;
+    border:2px solid rgba(245,200,66,0.2);
+    border-top-color:#f5c842;
+    border-radius:50%;
+    animation:spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  .escena-body { padding:12px; }
+  .escena-nivel { font-size:9px; letter-spacing:2px; color:#444; margin-bottom:4px; }
+  .escena-titulo { font-size:13px; font-weight:600; color:#ddd; margin-bottom:10px; line-height:1.3; }
+  .escena-acciones { display:flex; gap:6px; }
+
+  .btn-copiar {
+    flex:1; padding:8px; background:#0d1f0d;
+    border:1px solid #1a3a1a; border-radius:6px;
+    color:#00c853; font-size:10px; cursor:pointer;
+    letter-spacing:1px; transition:all 0.2s;
+  }
+  .btn-copiar:hover { background:#0d2a0d; }
+  .btn-copiar.copiado { background:#0d3a0d; color:#69f0ae; }
+
+  .btn-gen-uno {
+    padding:8px 10px; background:#0d0d0d;
+    border:1px solid #1a1a1a; border-radius:6px;
+    color:#666; font-size:12px; cursor:pointer;
+    transition:all 0.2s;
+  }
+  .btn-gen-uno:hover { border-color:#00c853; color:#00c853; }
+
+  .escena-error { font-size:10px; color:#ff5555; margin-top:6px; line-height:1.4; }
+
+  .checkbox-wrap { display:flex; align-items:center; gap:6px; margin-top:8px; }
+  .checkbox-wrap input { accent-color:#00c853; width:14px; height:14px; }
+  .checkbox-wrap label { font-size:11px; color:#444; cursor:pointer; }
+
+  /* ESTADO */
+  .estado-bar {
+    background:#0a0a0a; border:1px solid #1a1a1a;
+    border-radius:8px; padding:10px 14px;
+    font-size:12px; color:#666; margin-bottom:16px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .punto { width:8px; height:8px; border-radius:50%; background:#333; flex-shrink:0; }
+  .punto.activo { background:#f5c842; animation:parpadeo 1s infinite; }
+  .punto.listo { background:#00c853; }
+  .punto.error { background:#ff5555; }
+  @keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* VIDEOS TAB */
+  .video-card {
+    background:#0d0d0d; border:1px solid #1a1a1a;
+    border-radius:12px; padding:14px; margin-bottom:12px;
+  }
+  .video-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .video-nivel { font-size:9px; letter-spacing:2px; color:#444; }
+  .video-duracion {
+    background:#0d1f0d; border:1px solid #1a3a1a;
+    border-radius:12px; padding:2px 10px;
+    font-size:10px; color:#00c853;
+  }
+  .video-titulo { font-size:13px; font-weight:600; color:#ddd; margin-bottom:8px; }
+  .video-prompt {
+    background:#080808; border-radius:6px; padding:10px;
+    font-size:11px; color:#666; line-height:1.6;
+    margin-bottom:10px; max-height:80px; overflow:hidden;
+  }
+  .video-prompt.expandido { max-height:none; }
+
+  /* AUDIO TAB */
+  .audio-config {
+    background:#0d1f0d; border:1px solid #1a3a1a;
+    border-radius:12px; padding:14px; margin-bottom:16px;
+  }
+  .audio-config h3 { font-size:11px; letter-spacing:2px; color:#666; margin-bottom:10px; }
+  .config-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .config-item { background:#080808; border-radius:8px; padding:10px; text-align:center; }
+  .config-valor { font-size:20px; font-weight:700; color:#00c853; }
+  .config-label { font-size:10px; color:#444; margin-top:2px; }
+
+  .audio-card {
+    background:#0d0d0d; border:1px solid #1a1a1a;
+    border-radius:12px; overflow:hidden; margin-bottom:10px;
+  }
+  .audio-header {
+    padding:12px 14px; display:flex;
+    justify-content:space-between; align-items:center;
+    cursor:pointer;
+  }
+  .audio-header:hover { background:#111; }
+  .audio-info h4 { font-size:13px; color:#ddd; }
+  .audio-info p { font-size:10px; color:#444; margin-top:2px; }
+  .audio-guion {
+    padding:0 14px 14px;
+    font-size:12px; line-height:2; color:#888;
+    white-space:pre-line; display:none;
+  }
+  .audio-card.abierto .audio-guion { display:block; }
+
+  /* PROGRESO TAB */
+  .fase-card {
+    background:#0d0d0d; border:1px solid #1a1a1a;
+    border-radius:12px; padding:14px; margin-bottom:10px;
+  }
+  .fase-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .fase-nombre { font-size:13px; font-weight:600; color:#ddd; }
+  .fase-pct { font-size:13px; color:#00c853; font-weight:700; }
+  .fase-barra { background:#0a0a0a; border-radius:4px; height:6px; overflow:hidden; }
+  .fase-fill { height:100%; background:#00c853; border-radius:4px; transition:width 0.5s; }
+
+  .tips-box {
+    background:#0d1f0d; border:1px solid #1a3a1a;
+    border-radius:12px; padding:14px; margin-top:16px;
+  }
+  .tips-box h3 { font-size:11px; letter-spacing:2px; color:#666; margin-bottom:12px; }
+  .tip { display:flex; gap:10px; margin-bottom:10px; font-size:12px; color:#888; line-height:1.5; }
+  .tip-num {
+    width:22px; height:22px; background:#0d2a0d;
+    border:1px solid #1a3a1a; border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; color:#00c853; flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon">📈</div>
+    <div class="logo-text">
+      <h1>De $0 a $10,000,000</h1>
+      <p>Estudio de Producción</p>
+    </div>
+  </div>
+  <div class="progreso-total" id="progresoTotal">0% Completado</div>
+</div>
+
+<div class="tabs">
+  <div class="tab activo" onclick="cambiarTab('imagenes')">
+    🖼️ Imágenes
+    <span id="tabImg">0/25</span>
+  </div>
+  <div class="tab" onclick="cambiarTab('videos')">
+    🎬 Videos
+    <span id="tabVid">0/25</span>
+  </div>
+  <div class="tab" onclick="cambiarTab('audio')">
+    🎙️ Audio
+    <span id="tabAud">0/25</span>
+  </div>
+  <div class="tab" onclick="cambiarTab('progreso')">
+    📊 Progreso
+    <span></span>
+  </div>
+</div>
+
+<!-- TAB IMÁGENES -->
+<div class="contenido activo" id="tab-imagenes">
+
+  <div class="api-box">
+    <label>CLAVE API DE GEMINI</label>
+    <div class="api-row">
+      <input type="password" class="api-input" id="apiKey" placeholder="AIza..." />
+      <button class="btn-api" onclick="probarClave()">Probar</button>
+    </div>
+  </div>
+
+  <div class="instrucciones">
+    <strong>📋 INSTRUCCIONES</strong>
+    1. Ingresa tu clave API de Google AI Studio<br>
+    2. Sube la imagen de referencia de tu personaje<br>
+    3. Toca "Generar Todo" — la app genera las 25 escenas automáticamente<br>
+    4. Descarga todas las imágenes al finalizar
+  </div>
+
+  <div class="ref-box" onclick="document.getElementById('inputRef').click()">
+    <div id="refPreview">
+      <div style="font-size:36px">📷</div>
+      <p>Toca para subir imagen del personaje</p>
+      <p style="font-size:11px;color:#333;margin-top:4px">Esta imagen se usa como referencia para mantener consistencia</p>
+    </div>
+    <input type="file" id="inputRef" accept="image/*" onchange="subirRef(this)" />
+  </div>
+
+  <div class="gen-box">
+    <div class="gen-header">
+      <div class="gen-titulo">GENERACIÓN EN LOTE</div>
+      <div class="gen-contador"><span id="numGen">0</span><span> / 25</span></div>
+    </div>
+    <div class="barra-wrap"><div class="barra-fill" id="barraGen"></div></div>
+    <div class="gen-estado" id="estadoGen">Ingresa tu clave API y toca Generar Todo</div>
+    <div class="btn-row">
+      <button class="btn-generar" id="btnGenerar" onclick="generarTodo()">⚡ Generar Todo</button>
+      <button class="btn-descargar-todo" id="btnDescargarTodo" onclick="descargarTodo()" disabled>⬇ Descargar Todo</button>
+    </div>
+  </div>
+
+  <div class="estado-bar">
+    <div class="punto" id="puntito"></div>
+    <span id="estadoMsg">Listo para comenzar</span>
+  </div>
+
+  <div class="escenas-grid" id="gridEscenas"></div>
+</div>
+
+<!-- TAB VIDEOS -->
+<div class="contenido" id="tab-videos">
+  <div class="instrucciones">
+    <strong>🎬 INSTRUCCIONES — KLING AI</strong>
+    1. Abre Kling AI en tu navegador<br>
+    2. Sube tu imagen de personaje como referencia<br>
+    3. Copia el prompt de cada escena y pégalo<br>
+    4. Ajusta la duración según se indica<br>
+    5. Descarga cada clip numerado
+  </div>
+  <div id="listaVideos"></div>
+</div>
+
+<!-- TAB AUDIO -->
+<div class="contenido" id="tab-audio">
+  <div class="audio-config">
+    <h3>⚙️ CONFIGURACIÓN ELEVENLABS</h3>
+    <div class="config-grid">
+      <div class="config-item"><div class="config-valor">42%</div><div class="config-label">Estabilidad</div></div>
+      <div class="config-item"><div class="config-valor">78%</div><div class="config-label">Claridad</div></div>
+      <div class="config-item"><div class="config-valor">38%</div><div class="config-label">Estilo</div></div>
+      <div class="config-item"><div class="config-valor">ON</div><div class="config-label">Speaker Boost</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#444;">Voz recomendada: Daniel — Multilingual v2</div>
+  </div>
+  <div id="listaAudio"></div>
+</div>
+
+<!-- TAB PROGRESO -->
+<div class="contenido" id="tab-progreso">
+  <div id="listaFases"></div>
+  <div class="tips-box">
+    <h3>💡 TIPS DE EDICIÓN — CAPCUT</h3>
+    <div class="tip"><div class="tip-num">1</div><div>Importa el audio de ElevenLabs primero, luego coloca las imágenes encima sincronizadas con la voz</div></div>
+    <div class="tip"><div class="tip-num">2</div><div>Transición entre niveles: usa "Fade to black" de 0.3 segundos para separar cada nivel de riqueza</div></div>
+    <div class="tip"><div class="tip-num">3</div><div>Color grade: aplica preset "Cinematic Dark" y baja la saturación un 10% para look profesional</div></div>
+    <div class="tip"><div class="tip-num">4</div><div>Música de fondo al 12% de volumen — usa música épica/orquestal sin derechos de autor</div></div>
+    <div class="tip"><div class="tip-num">5</div><div>Subtítulos automáticos con CapCut AI — fuente bold blanca con sombra negra, tamaño 16</div></div>
+    <div class="tip"><div class="tip-num">6</div><div>Exporta en 4K 60fps H.264 para máxima calidad en YouTube</div></div>
+  </div>
+</div>
+
+<script>
+// ─── DATOS ────────────────────────────────────────────────────────────────────
+const ESCENAS = [
+  { id:1, nivel:"INTRO", titulo:"El personaje mirando cuenta en $0", duracion:8,
+    prompt:`3D animated young Latino male, dark navy suit, burgundy tie, sitting alone in dimly lit apartment, staring at phone showing $0.00 balance, stressed worried expression, cold blue light, Pixar-Disney style, cinematic 16:9`,
+    video:`Personaje sentado solo en apartamento oscuro, mirando lentamente el teléfono que muestra $0, hombros caídos de derrota, luz azul fría, zoom lento hacia su cara, 8 segundos, cinematográfico`,
+    guion:`¿Alguna vez te has preguntado... cómo cambia tu vida cuando pasas de no tener NADA...\n\na tener millones?\n\n[pausa]\n\nNo hablo de teorías.\nNo hablo de suerte.\n\nHoy... vamos a vivir cada nivel de riqueza.\n\nJuntos.` },
+  { id:2, nivel:"INTRO", titulo:"Título del video", duracion:5,
+    prompt:`Cinematic dark title card, dramatic golden glowing text "De $0 a $10,000,000", epic light rays, floating gold coins, luxury dark background, 16:9 widescreen`,
+    video:`Texto dorado "De $0 a $10,000,000" emergiendo de la oscuridad con rayos de luz, monedas flotando, atmósfera épica, 5 segundos`,
+    guion:`De cero... a diez millones de dólares.\n\nEsta es tu historia.` },
+  { id:3, nivel:"NIVEL $0", titulo:"Despertando a las 5am", duracion:8,
+    prompt:`3D animated young Latino male, worn casual clothes, waking up in small rented room, alarm clock showing 5:00 AM, tired defeated expression, cold pre-dawn blue light, Pixar-Disney style, 16:9`,
+    video:`Personaje despertando lentamente en cuarto pequeño, reloj marcando 5:00 AM, expresión de cansancio y derrota, luz azul de madrugada, 8 segundos`,
+    guion:`Nivel CERO.\n\nAquí empieza todo.\n\nTu despertador suena a las CINCO de la mañana...\nno porque quieras...\nsino porque necesitas llegar al trabajo antes que el jefe.\n\n[pausa]\n\nTu cuenta bancaria tiene cuarenta y siete dólares...\ny faltan DOCE días para la quincena.` },
+  { id:4, nivel:"NIVEL $0", titulo:"Mirando cuenta con $47", duracion:6,
+    prompt:`3D animated young Latino male, extreme close-up face, eyes reflecting phone screen showing $47.00 bank balance, anxiety expression, dramatic side light, Pixar-Disney style, 16:9`,
+    video:`Primer plano extremo del rostro, ojos reflejando pantalla del teléfono con $47, tensión visible en la mandíbula, luz dramática lateral, 6 segundos`,
+    guion:`En este nivel... el dinero no es una herramienta.\n\nEs una AMENAZA constante.\n\nCada gasto duele.\nLa gasolina.\nLa comida.\nEl teléfono.\n\nNada... sobra.` },
+  { id:5, nivel:"NIVEL $0", titulo:"Mirando por la ventana reflexivo", duracion:6,
+    prompt:`3D animated young Latino male, casual worn clothes, standing by window at dawn, contemplative hopeful expression, warm light vs cold room contrast, Pixar-Disney style, cinematic 16:9`,
+    video:`Personaje de pie junto a ventana al amanecer, mirando la ciudad con esperanza, luz cálida entrando vs cuarto frío, 6 segundos`,
+    guion:`Pero hay algo que nadie te dice sobre el nivel cero...\n\nAquí se forma el carácter...\nque después... NADIE te puede quitar.` },
+  { id:6, nivel:"NIVEL $1,000", titulo:"Contando y guardando efectivo", duracion:8,
+    prompt:`3D animated young Latino male, carefully counting cash bills at small table, warm lamp light, focused expression with subtle smile, first savings, Pixar-Disney style, 16:9`,
+    video:`Personaje contando billetes en mesa pequeña bajo lámpara cálida, colocándolos en sobre con expresión de logro, 8 segundos`,
+    guion:`Mil dólares.\n\n[pausa]\n\nPara algunos... es poco.\n\nPara quien viene del nivel cero...\nes la primera vez en su vida...\nque duerme sin pesadillas de dinero.` },
+  { id:7, nivel:"NIVEL $1,000", titulo:"Tentación del carro nuevo", duracion:8,
+    prompt:`3D animated young Latino male, standing in car dealership, tempted expression looking at luxury car, internal conflict on face, showroom lights, Pixar-Disney style, 16:9`,
+    video:`Personaje en concesionario tocando carro de lujo con expresión de tentación, luego retrocede con disciplina, 8 segundos`,
+    guion:`El error más común aquí...\n\nGastarlo en algo que "mereces."\n\nEl carro nuevo.\nEl viaje.\nLa fiesta.\n\nY volviste... al nivel cero.\n\n[pausa]\n\nLos que suben al siguiente nivel hacen algo diferente.\n\nTratan ese dinero...\ncomo si NO existiera.` },
+  { id:8, nivel:"NIVEL $5,000", titulo:"Trabajando horas extra de noche", duracion:10,
+    prompt:`3D animated young Latino male, alone in office at night, typing intensely on laptop, city lights through window, determined expression, warm desk lamp, Pixar-Disney style, 16:9`,
+    video:`Personaje solo en oficina de noche escribiendo intensamente, ciudad iluminada por ventana, reloj marcando 11PM, 10 segundos`,
+    guion:`Cinco mil dólares.\n\nAhora tienes opciones.\nPequeñas... pero REALES.\n\n[pausa]\n\nEn este nivel tu cerebro empieza a cambiar.\n\nYa no piensas solo en sobrevivir.\n\nEmpiezas a preguntar...\n\n¿Y si pudiera hacer que este dinero...\ntrabajara para MÍ?` },
+  { id:9, nivel:"NIVEL $5,000", titulo:"Aprendiendo finanzas de noche", duracion:8,
+    prompt:`3D animated young Latino male, lying in bed watching finance content on laptop, taking notes, screen light on face in dark room, Pixar-Disney style, 16:9`,
+    video:`Personaje acostado en cama con laptop abierta mostrando gráficas financieras, tomando notas, luz de pantalla en cara oscura, 8 segundos`,
+    guion:`Los que avanzan hacen una sola cosa.\n\nInvierten en su habilidad más valiosa.\n\nTú.` },
+  { id:10, nivel:"NIVEL $10,000", titulo:"Abriendo cuenta de inversión", duracion:8,
+    prompt:`3D animated young Latino male, nervously opening investment app on laptop for first time, mix of fear and excitement, green charts on screen, Pixar-Disney style, 16:9`,
+    video:`Personaje abriendo aplicación de inversiones por primera vez, dedo dudando sobre "confirmar", deep breath y click, mezcla de miedo y emoción, 8 segundos`,
+    guion:`Diez mil dólares.\n\n[pausa]\n\nEste es el primer nivel donde la gente a tu alrededor...\nempieza a notar algo diferente en ti.\n\nNo saben qué es.\n\nPero tú... SÍ.\n\n[pausa]\n\nEs la mentalidad.\n\nYa no REACCIONAS al dinero.\n\nEmpiezas a planificarlo.` },
+  { id:11, nivel:"NIVEL $10,000", titulo:"Primeras acciones subiendo", duracion:6,
+    prompt:`3D animated young Latino male, watching stock market app on phone, eyes widening with excitement, green numbers reflecting in eyes, Pixar-Disney style, 16:9`,
+    video:`Personaje mirando teléfono con acciones subiendo, ojos abriéndose con asombro, números verdes reflejados en pupilas, pequeño puño de victoria, 6 segundos`,
+    guion:`La trampa de este nivel...\n\nLa inflación del estilo de vida.\n\nGanas más... gastas más.\nY el número... nunca crece.` },
+  { id:12, nivel:"NIVEL $50,000", titulo:"Dinero generando dinero solo", duracion:8,
+    prompt:`3D animated young Latino male, sleeping peacefully, magical golden coins multiplying around him, passive income visualization, golden dreamlike light, Pixar-Disney style, 16:9`,
+    video:`Personaje durmiendo plácidamente mientras monedas doradas se multiplican mágicamente a su alrededor, luz dorada onírica, 8 segundos`,
+    guion:`Cincuenta mil dólares.\n\n[pausa]\n\nAquí algo MÁGICO ocurre por primera vez.\n\nTu dinero empieza a ganar dinero...\nsin que trabajes.\n\n[pausa]\n\nA un siete por ciento anual...\ncincuenta mil dólares te generan\ntres mil quinientos dólares al año...\n\nSolo... estando quietos.` },
+  { id:13, nivel:"NIVEL $50,000", titulo:"Revisando portafolio satisfecho", duracion:8,
+    prompt:`3D animated young Latino male, in suit on modern sofa, reviewing investment portfolio on tablet, subtle satisfied smile, green charts, Pixar-Disney style, 16:9`,
+    video:`Personaje en sofá moderno revisando portafolio con sonrisa sutil de satisfacción, gráficas verdes visibles, luz de tarde, 8 segundos`,
+    guion:`Pero aquí viene la prueba MÁS difícil.\n\nLa paciencia.\n\nPorque cincuenta mil se sienten grandes...\npero aún estás lejos.\n\nY la gente que abandona aquí...\n\nnunca lo sabe.` },
+  { id:14, nivel:"NIVEL $100,000", titulo:"Firmando primer apartamento", duracion:8,
+    prompt:`3D animated young Latino male, in sharp suit signing property documents, proud accomplished smile, professional handshake, Pixar-Disney style, 16:9`,
+    video:`Personaje con traje elegante firmando documentos de propiedad, sonrisa de orgullo, apretón de manos, luz de oficina cálida, 8 segundos`,
+    guion:`Cien mil dólares.\n\nEl primer umbral psicológico REAL.\n\n[pausa]\n\nWarren Buffett dijo algo que pocos entienden...\n\nLos primeros cien mil son los más difíciles.\n\nDespués de eso...\nel dinero empieza a multiplicarse casi solo.` },
+  { id:15, nivel:"NIVEL $100,000", titulo:"Familia pidiendo dinero", duracion:10,
+    prompt:`3D animated young Latino male, in suit at family dinner, relatives with hands extended asking for money, visible discomfort, emotional tension, warm home lighting, Pixar-Disney style, 16:9`,
+    video:`Personaje en cena familiar con parientes inclinándose pidiendo dinero con manos extendidas, incomodidad visible en rostro, tensión emocional, 10 segundos`,
+    guion:`Y aquí aparece el peligro más SILENCIOSO.\n\nLas personas cercanas que empiezan a pedirte dinero.\n\nFamilia.\nAmigos.\n\nY decir que no...\nse siente como traición.` },
+  { id:16, nivel:"NIVEL $500,000", titulo:"Liderando reunión de negocios", duracion:8,
+    prompt:`3D animated young Latino male, leading business meeting, confident gestures, city skyline through floor windows, team listening, Pixar-Disney style, 16:9`,
+    video:`Personaje al frente de sala de conferencias liderando con gestos seguros, equipo atento, ciudad de fondo, luz cinematográfica corporativa, 8 segundos`,
+    guion:`Medio millón de dólares.\n\n[pausa]\n\nYa no eres rico.\n\nPero tampoco eres... normal.\n\n[pausa]\n\nEn este nivel tienes lo que el noventa y SIETE\npor ciento de la población nunca tendrá.\n\nLibertad de tiempo.` },
+  { id:17, nivel:"NIVEL $500,000", titulo:"Libertad total de tiempo", duracion:10,
+    prompt:`3D animated young Latino male, casual elegant clothes, rooftop terrace with coffee, peaceful free expression, city below, golden hour, Pixar-Disney style, 16:9`,
+    video:`Personaje en terraza de penthouse con café, sin prisa, observando ciudad que trabaja abajo, expresión de libertad y paz, hora dorada, 10 segundos`,
+    guion:`Tus inversiones generan entre veinte\ny treinta mil dólares al año en intereses.\n\nEn muchos países de latinoamérica...\neso es más que el salario anual promedio.` },
+  { id:18, nivel:"NIVEL $1,000,000", titulo:"Caminando en aeropuerto privado", duracion:8,
+    prompt:`3D animated young Latino male, premium suit, walking through private airport, luxury luggage, private jet visible, VIP atmosphere, Pixar-Disney style, 16:9`,
+    video:`Personaje con traje premium caminando por terminal privada sin prisa, maletas de lujo, jet privado visible al fondo, personal saludándolo, 8 segundos`,
+    guion:`Un millón de dólares.\n\nEl número que TODOS sueñan.\n\n[pausa]\n\nY la verdad que nadie te dice...\n\nNo se siente como pensabas.` },
+  { id:19, nivel:"NIVEL $1,000,000", titulo:"El millón no se siente como esperaba", duracion:10,
+    prompt:`3D animated young Latino male, alone in luxury penthouse, phone showing $1,000,000, sitting quietly, reflective calm expression, dramatic golden window light, Pixar-Disney style, 16:9`,
+    video:`Personaje solo en penthouse lujoso, teléfono mostrando $1,000,000, sentado tranquilamente sin celebrar, expresión reflexiva inesperada, zoom lento, 10 segundos`,
+    guion:`No hay fuegos artificiales.\nNo hay momento de "lo logré."\n\nSolo una mañana en que revisas tu cuenta...\ny el número dice siete cifras.\n\nY sigues tomando café...\nigual que siempre.\n\n[pausa]\n\nPero lo que SÍ cambia...\nes esto.\n\nEl miedo desaparece.` },
+  { id:20, nivel:"NIVEL $5,000,000", titulo:"Solo en mansión enorme", duracion:10,
+    prompt:`3D animated young Latino male, standing alone in vast luxury living room, looks small against huge space, expression shifting from pride to emptiness, Pixar-Disney style, 16:9`,
+    video:`Personaje solo en sala gigante de mansión, se ve pequeño contra el espacio enorme, expresión cambiando de orgullo a vacío inesperado, ángulo amplio, 10 segundos`,
+    guion:`Cinco millones.\n\n[pausa]\n\nAquí el dinero deja de ser el tema central\nde tu vida.\n\nY aparece la pregunta...\nque el dinero NUNCA puede responder.\n\n[pausa]\n\n¿Para qué?` },
+  { id:21, nivel:"NIVEL $5,000,000", titulo:"Reflexión sobre el propósito", duracion:8,
+    prompt:`3D animated young Latino male, sitting alone in luxury library, book in hand but staring into distance, philosophical thought expression, warm lamp light, Pixar-Disney style, 16:9`,
+    video:`Personaje en biblioteca lujosa con libro en mano pero mirando al vacío, pensamiento filosófico profundo, luz cálida de lámpara, cámara girando lentamente, 8 segundos`,
+    guion:`El dinero amplifica quien ya eres.\n\nSi eres generoso... serás más generoso.\nSi eres ansioso... serás más ansioso.\n\nEl dinero no te cambia.\n\nTe REVELA.` },
+  { id:22, nivel:"NIVEL $10,000,000", titulo:"Amanecer en penthouse", duracion:12,
+    prompt:`3D animated young Latino male, elegant suit on penthouse terrace, watching sunrise over city, peaceful wise expression, golden light on face, epic wide shot, Pixar-Disney style, 16:9`,
+    video:`Personaje en traje elegante en terraza de penthouse viendo amanecer sobre ciudad, luz dorada iluminando rostro con sabiduría y paz, toma épica amplia, 12 segundos`,
+    guion:`Diez millones de dólares.\n\n[pausa]\n\nA este nivel tu mayor problema...\nya no es el dinero.\n\nEs el LEGADO.\n\n[pausa]\n\n¿Qué vas a dejar cuando ya no estés?` },
+  { id:23, nivel:"NIVEL $10,000,000", titulo:"Pensando en el legado", duracion:10,
+    prompt:`3D animated young Latino male, in luxury home office, looking at family portrait on wall, hand touching frame gently, emotional thoughtful expression, Pixar-Disney style, 16:9`,
+    video:`Personaje en oficina de lujo mirando retrato familiar en pared, mano tocando el marco suavemente, expresión emocional de responsabilidad, zoom lento al retrato, 10 segundos`,
+    guion:`Los estudios muestran que el SETENTA por ciento\nde las fortunas familiares desaparecen\nen la segunda generación.\n\nEl noventa por ciento... en la tercera.\n\n[pausa]\n\nPorque el dinero se hereda.\n\nPero la mentalidad que lo creó...\n\nno.` },
+  { id:24, nivel:"CIERRE", titulo:"Regreso al cuarto del nivel $0", duracion:12,
+    prompt:`3D animated young Latino male, premium suit, standing in doorway of original small poor apartment, looking back with wisdom and gratitude, contrast of suit vs humble room, Pixar-Disney style, 16:9`,
+    video:`Personaje con traje premium parado en umbral del apartamento pobre original, mirando con gratitud y sabiduría, contraste poderoso entre traje y cuarto humilde, 12 segundos`,
+    guion:`Y aquí está la verdad que quiero\nque te lleves hoy.\n\n[pausa]\n\nCada uno de estos niveles...\nexiste en el mundo real.\n\nLa diferencia entre ellos...\nno es la suerte.\nNo es el país donde nacieron.\nNo es la familia que tuvieron.\n\n[pausa]\n\nEs una serie de decisiones pequeñas...\nrepetidas cada día...\ndurante años.` },
+  { id:25, nivel:"CIERRE", titulo:"Call to action directo a cámara", duracion:6,
+    prompt:`3D animated young Latino male, looking directly at camera, warm confident smile, pointing toward viewer, subscribe energy, dark gradient background, Pixar-Disney style, 16:9`,
+    video:`Personaje mirando directo a cámara con sonrisa cálida y segura, gesto apuntando al espectador, energía de suscripción, fondo oscuro con rayos de luz, 6 segundos`,
+    guion:`¿En qué nivel estás tú hoy?\n\nEscríbelo en los comentarios.\nSin vergüenza.\n\nPorque el primer paso para subir...\n\nes saber dónde estás.\n\n[pausa]\n\nSi este video te abrió los ojos...\nsuscríbete.\n\nPorque apenas...\nestamos empezando.` }
+];
+
+// ─── ESTADO ───────────────────────────────────────────────────────────────────
+let corriendo = false;
+let detener = false;
+let imagenes = {};
+let checkboxes = JSON.parse(localStorage.getItem('checkboxes') || '{}');
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+function init() {
+  initGrid();
+  initVideos();
+  initAudio();
+  initProgreso();
+}
+
+function initGrid() {
+  const grid = document.getElementById('gridEscenas');
+  ESCENAS.forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'escena-card';
+    card.id = `card-${e.id}`;
+    card.innerHTML = `
+      <div class="escena-imagen" id="img-${e.id}">
+        <div class="escena-placeholder">🖼️<br>Esperando</div>
+        <div class="escena-num">${String(e.id).padStart(2,'0')}</div>
+      </div>
+      <div class="escena-body">
+        <div class="escena-nivel">${e.nivel}</div>
+        <div class="escena-titulo">${e.titulo}</div>
+        <div class="escena-acciones">
+          <button class="btn-copiar" onclick="copiarPrompt(${e.id}, this)">📋 Copiar Prompt</button>
+          <button class="btn-gen-uno" id="btn-uno-${e.id}" onclick="generarUna(${e.id})">⚡</button>
+        </div>
+        <div class="escena-error" id="err-${e.id}" style="display:none"></div>
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="chk-${e.id}" ${checkboxes[e.id] ? 'checked' : ''} onchange="guardarCheck(${e.id})">
+          <label for="chk-${e.id}">Completada</label>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function initVideos() {
+  const lista = document.getElementById('listaVideos');
+  ESCENAS.forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+      <div class="video-header">
+        <div class="video-nivel">${e.nivel} — ESCENA ${String(e.id).padStart(2,'0')}</div>
+        <div class="video-duracion">${e.duracion}s</div>
+      </div>
+      <div class="video-titulo">${e.titulo}</div>
+      <div class="video-prompt">${e.video}</div>
+      <div class="escena-acciones">
+        <button class="btn-copiar" onclick="copiarTexto('${e.video.replace(/'/g,"\\'")}', this)">📋 Copiar Prompt</button>
+        <div class="checkbox-wrap" style="margin:0">
+          <input type="checkbox" id="vchk-${e.id}" ${checkboxes['v'+e.id] ? 'checked' : ''} onchange="guardarCheck('v'+${e.id})">
+          <label for="vchk-${e.id}">Listo</label>
+        </div>
+      </div>`;
+    lista.appendChild(card);
+  });
+  document.getElementById('tabVid').textContent = `0/${ESCENAS.length}`;
+}
+
+function initAudio() {
+  const lista = document.getElementById('listaAudio');
+  ESCENAS.forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'audio-card';
+    card.innerHTML = `
+      <div class="audio-header" onclick="toggleAudio(this)">
+        <div class="audio-info">
+          <h4>${String(e.id).padStart(2,'0')} — ${e.titulo}</h4>
+          <p>${e.nivel}</p>
+        </div>
+        <button class="btn-copiar" style="width:auto" onclick="event.stopPropagation();copiarTexto(\`${e.guion.replace(/`/g,'\\`')}\`, this)">📋 Copiar</button>
+      </div>
+      <div class="audio-guion">${e.guion}</div>`;
+    lista.appendChild(card);
+  });
+}
+
+function initProgreso() {
+  const lista = document.getElementById('listaFases');
+  const fases = [
+    { nombre:'🖼️ Imágenes generadas', pct:0, id:'fase-img' },
+    { nombre:'🎬 Videos generados', pct:0, id:'fase-vid' },
+    { nombre:'🎙️ Audio grabado', pct:0, id:'fase-aud' },
+    { nombre:'✂️ Edición en CapCut', pct:0, id:'fase-edit' },
+    { nombre:'🚀 Video publicado', pct:0, id:'fase-pub' },
+  ];
+  fases.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'fase-card';
+    card.id = f.id;
+    card.innerHTML = `
+      <div class="fase-header">
+        <div class="fase-nombre">${f.nombre}</div>
+        <div class="fase-pct" id="${f.id}-pct">0%</div>
+      </div>
+      <div class="fase-barra"><div class="fase-fill" id="${f.id}-fill" style="width:0%"></div></div>`;
+    lista.appendChild(card);
+  });
+  actualizarProgreso();
+}
+
+// ─── FUNCIONES ────────────────────────────────────────────────────────────────
+function cambiarTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+  document.querySelectorAll('.contenido').forEach(c => c.classList.remove('activo'));
+  event.target.closest('.tab').classList.add('activo');
+  document.getElementById('tab-'+tab).classList.add('activo');
+}
+
+function toggleAudio(header) {
+  header.closest('.audio-card').classList.toggle('abierto');
+}
+
+function subirRef(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('refPreview').innerHTML = `<img src="${e.target.result}" style="max-width:100%;max-height:200px;border-radius:8px;" />`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function probarClave() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { setEstado('error','Ingresa tu clave API primero'); return; }
+  setEstado('activo','Probando clave API...');
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+    if (r.ok) setEstado('listo','✓ Clave API válida — lista para generar');
+    else setEstado('error','Clave inválida. Verifica en aistudio.google.com');
+  } catch(e) {
+    setEstado('error','Error de conexión: '+e.message);
+  }
+}
+
+async function generarTodo() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { setEstado('error','Ingresa tu clave API primero'); return; }
+  if (corriendo) return;
+  corriendo = true;
+  detener = false;
+  document.getElementById('btnGenerar').disabled = true;
+  document.getElementById('btnGenerar').textContent = '⏳ Generando...';
+
+  let ok = 0, fallo = 0;
+
+  for (let i = 0; i < ESCENAS.length; i++) {
+    if (detener) break;
+    const e = ESCENAS[i];
+    if (imagenes[e.id]) { ok++; actualizarBarra(ok+fallo); continue; }
+
+    setCardEstado(e.id, 'generando');
+    setEstado('activo', `[${e.id}/25] Generando: ${e.titulo}...`);
+    mostrarSpinner(e.id);
+
+    try {
+      const url = await llamarGemini(key, e.prompt);
+      imagenes[e.id] = { url, titulo: e.titulo };
+      mostrarImagen(e.id, url, e.titulo);
+      setCardEstado(e.id, 'lista');
+      document.getElementById(`btn-uno-${e.id}`).textContent = '✓';
+      ok++;
+    } catch(err) {
+      setCardEstado(e.id, 'error');
+      mostrarError(e.id, err.message);
+      fallo++;
+    }
+
+    actualizarBarra(ok+fallo);
+    actualizarProgreso();
+    if (i < ESCENAS.length-1 && !detener) await esperar(12000);
+  }
+
+  corriendo = false;
+  document.getElementById('btnGenerar').disabled = false;
+  document.getElementById('btnGenerar').textContent = '⚡ Generar Todo';
+
+  if (ok === ESCENAS.length) {
+    setEstado('listo', `✓ ¡Las 25 imágenes generadas! Descarga todo abajo.`);
+    document.getElementById('btnDescargarTodo').disabled = false;
+  } else if (ok > 0) {
+    setEstado('listo', `${ok} generadas, ${fallo} fallidas. Usa ⚡ para reintentar.`);
+    document.getElementById('btnDescargarTodo').disabled = false;
+  } else {
+    setEstado('error', 'Todas fallaron. Verifica tu clave API.');
+  }
+}
+
+async function generarUna(id) {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { setEstado('error','Ingresa tu clave API primero'); return; }
+  if (corriendo) return;
+
+  const e = ESCENAS.find(x => x.id === id);
+  setCardEstado(id, 'generando');
+  mostrarSpinner(id);
+  ocultarError(id);
+  setEstado('activo', `Generando escena ${id}: ${e.titulo}...`);
+
+  try {
+    const url = await llamarGemini(key, e.prompt);
+    imagenes[id] = { url, titulo: e.titulo };
+    mostrarImagen(id, url, e.titulo);
+    setCardEstado(id, 'lista');
+    document.getElementById(`btn-uno-${id}`).textContent = '✓';
+    setEstado('listo', `✓ Escena ${id} generada`);
+    actualizarProgreso();
+  } catch(err) {
+    setCardEstado(id, 'error');
+    mostrarError(id, err.message);
+    setEstado('error', `Error en escena ${id}`);
+  }
+}
+
+async function llamarGemini(key, prompt) {
+  const body = {
+    instances: [{ prompt }],
+    parameters: { sampleCount: 1 }
+  };
+
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${key}`,
+    { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }
+  );
+
+  if (!r.ok) {
+    const err = await r.json().catch(()=>({}));
+    throw new Error(err.error?.message || `Error HTTP ${r.status}`);
+  }
+
+  const data = await r.json();
+  if (!data.predictions?.[0]?.bytesBase64Encoded) throw new Error('Sin imagen en respuesta');
+  return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+}
+
+async function descargarTodo() {
+  const ids = Object.keys(imagenes).map(Number).sort((a,b)=>a-b);
+  if (!ids.length) return;
+  setEstado('activo', `Descargando ${ids.length} imágenes...`);
+  for (const id of ids) {
+    await descargarUna(id);
+    await esperar(500);
+  }
+  setEstado('listo', `✓ ${ids.length} imágenes descargadas`);
+}
+
+async function descargarUna(id) {
+  const g = imagenes[id];
+  if (!g) return;
+  const a = document.createElement('a');
+  a.href = g.url;
+  a.download = `${String(id).padStart(2,'0')}_${g.titulo.replace(/[^\w]/g,'_')}.png`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function copiarPrompt(id, btn) {
+  const e = ESCENAS.find(x => x.id === id);
+  copiarTexto(e.prompt, btn);
+}
+
+function copiarTexto(texto, btn) {
+  navigator.clipboard.writeText(texto).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copiado');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copiado'); }, 2000);
+  });
+}
+
+function guardarCheck(id) {
+  checkboxes[id] = document.getElementById(`chk-${id}`)?.checked || document.getElementById(`vchk-${id}`)?.checked;
+  localStorage.setItem('checkboxes', JSON.stringify(checkboxes));
+  actualizarProgreso();
+}
+
+function actualizarProgreso() {
+  const imgDone = Object.keys(imagenes).length;
+  const vidDone = ESCENAS.filter(e => checkboxes['v'+e.id]).length;
+  const audDone = ESCENAS.filter(e => checkboxes['a'+e.id]).length;
+
+  const total = (imgDone + vidDone + audDone) / (ESCENAS.length * 3) * 100;
+  document.getElementById('progresoTotal').textContent = `${Math.round(total)}% Completado`;
+  document.getElementById('tabImg').textContent = `${imgDone}/${ESCENAS.length}`;
+  document.getElementById('tabVid').textContent = `${vidDone}/${ESCENAS.length}`;
+  document.getElementById('tabAud').textContent = `${audDone}/${ESCENAS.length}`;
+
+  setFase('fase-img', Math.round(imgDone/ESCENAS.length*100));
+  setFase('fase-vid', Math.round(vidDone/ESCENAS.length*100));
+  setFase('fase-aud', Math.round(audDone/ESCENAS.length*100));
+}
+
+function setFase(id, pct) {
+  const el = document.getElementById(id+'-pct');
+  const fill = document.getElementById(id+'-fill');
+  if (el) el.textContent = pct+'%';
+  if (fill) fill.style.width = pct+'%';
+}
+
+// ─── UI HELPERS ───────────────────────────────────────────────────────────────
+function actualizarBarra(done) {
+  const pct = Math.round(done/ESCENAS.length*100);
+  document.getElementById('barraGen').style.width = pct+'%';
+  document.getElementById('numGen').textContent = done;
+}
+
+function setCardEstado(id, estado) {
+  const card = document.getElementById(`card-${id}`);
+  card.className = 'escena-card ' + (estado === 'generando' ? 'generando' : estado === 'lista' ? 'lista' : estado === 'error' ? 'error' : '');
+}
+
+function mostrarSpinner(id) {
+  document.getElementById(`img-${id}`).innerHTML = `
+    <div class="spinner-small"></div>
+    <div class="escena-num">${String(id).padStart(2,'0')}</div>`;
+}
+
+function mostrarImagen(id, url, titulo) {
+  document.getElementById(`img-${id}`).innerHTML = `
+    <img src="${url}" alt="${titulo}" />
+    <div class="escena-num">${String(id).padStart(2,'0')}</div>`;
+}
+
+function mostrarError(id, msg) {
+  document.getElementById(`img-${id}`).innerHTML = `
+    <div class="escena-placeholder" style="color:#ff5555">❌<br>Error</div>
+    <div class="escena-num">${String(id).padStart(2,'0')}</div>`;
+  const err = document.getElementById(`err-${id}`);
+  err.style.display = 'block';
+  err.textContent = msg?.slice(0,80) || 'Error desconocido';
+}
+
+function ocultarError(id) {
+  document.getElementById(`err-${id}`).style.display = 'none';
+}
+
+function setEstado(tipo, msg) {
+  const punto = document.getElementById('puntito');
+  punto.className = 'punto ' + (tipo === 'activo' ? 'activo' : tipo === 'listo' ? 'listo' : tipo === 'error' ? 'error' : '');
+  document.getElementById('estadoMsg').textContent = msg;
+}
+
+function esperar(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+init();
+</script>
+</body>
+</html>
