@@ -43,6 +43,22 @@
   .tab.activo { color:#00c853; border-bottom-color:#00c853; }
   .tab span { display:block; font-size:10px; margin-top:2px; }
 
+  /* PROYECTO BAR */
+  .proyecto-bar {
+    display:flex; gap:6px; align-items:center;
+    background:#0a0a0a; border-bottom:1px solid #1a1a1a;
+    padding:10px 16px; overflow-x:auto;
+  }
+  #selectProyecto {
+    flex:1; min-width:120px; background:#0d0d0d; border:1px solid #1a3a1a;
+    border-radius:8px; padding:8px 10px; color:#e0e0e0; font-size:12px;
+  }
+  .btn-proy {
+    background:#0d1f0d; border:1px solid #1a3a1a; border-radius:8px;
+    color:#00c853; padding:8px 10px; font-size:12px; cursor:pointer; white-space:nowrap;
+  }
+  .btn-proy:hover { background:#0d2a0d; }
+
   /* CONTENIDO */
   .contenido { display:none; padding:16px; max-width:800px; margin:0 auto; }
   .contenido.activo { display:block; }
@@ -115,6 +131,14 @@
   .btn-descargar-todo:hover:not(:disabled) { background:#0d3a0d; }
   .btn-descargar-todo:disabled { opacity:0.3; cursor:not-allowed; }
 
+  /* CANCELAR */
+  .btn-cancelar {
+    padding:12px 16px; background:#2a0d0d; border:1px solid #ff5555;
+    border-radius:8px; color:#ff5555; font-weight:700; font-size:13px; cursor:pointer;
+  }
+  .btn-cancelar:hover:not(:disabled) { background:#3a0d0d; }
+  .btn-cancelar:disabled { opacity:0.4; cursor:not-allowed; }
+
   /* ESCENAS GRID */
   .escenas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; }
 
@@ -176,18 +200,43 @@
   .checkbox-wrap input { accent-color:#00c853; width:14px; height:14px; }
   .checkbox-wrap label { font-size:11px; color:#444; cursor:pointer; }
 
-  /* ESTADO */
-  .estado-bar {
-    background:#0a0a0a; border:1px solid #1a1a1a;
-    border-radius:8px; padding:10px 14px;
-    font-size:12px; color:#666; margin-bottom:16px;
-    display:flex; align-items:center; gap:8px;
+  /* AGREGAR ESCENA */
+  .btn-agregar-escena {
+    display:block; width:100%; margin-top:12px; padding:14px;
+    background:#0d0d0d; border:2px dashed #1a3a1a; border-radius:12px;
+    color:#00c853; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;
   }
-  .punto { width:8px; height:8px; border-radius:50%; background:#333; flex-shrink:0; }
-  .punto.activo { background:#f5c842; animation:parpadeo 1s infinite; }
-  .punto.listo { background:#00c853; }
-  .punto.error { background:#ff5555; }
-  @keyframes parpadeo { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .btn-agregar-escena:hover { border-color:#00c853; background:#0d1a0d; }
+
+  /* MODAL EDICIÓN */
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.7);
+    display:none; align-items:center; justify-content:center;
+    padding:16px; z-index:200;
+  }
+  .modal-box {
+    background:#0d0d0d; border:1px solid #1a3a1a; border-radius:14px;
+    padding:20px; max-width:500px; width:100%; max-height:85vh; overflow-y:auto;
+  }
+  .modal-box h3 { font-size:14px; color:#fff; margin-bottom:14px; }
+  .modal-box label { display:block; font-size:11px; color:#666; letter-spacing:1px; margin:12px 0 6px; }
+  .modal-box input, .modal-box textarea {
+    width:100%; background:#0a0a0a; border:1px solid #1a3a1a; border-radius:8px;
+    padding:10px; color:#e0e0e0; font-size:13px; font-family:inherit; outline:none;
+  }
+  .modal-box input:focus, .modal-box textarea:focus { border-color:#00c853; }
+  .modal-box textarea { resize:vertical; min-height:60px; line-height:1.5; }
+  .modal-btns { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
+  .modal-btns button {
+    flex:1; min-width:100px; padding:12px; border-radius:8px; border:none;
+    font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .btn-guardar { background:#00c853; color:#000; }
+  .btn-guardar:hover { background:#00e676; }
+  .btn-cerrar-modal { background:#1a1a1a; color:#999; }
+  .btn-cerrar-modal:hover { background:#252525; }
+  .btn-eliminar-modal { background:#2a0d0d; color:#ff5555; border:1px solid #ff5555 !important; }
+  .btn-eliminar-modal:hover { background:#3a0d0d; }
 
   /* VIDEOS TAB */
   .video-card {
@@ -219,6 +268,11 @@
   .config-item { background:#080808; border-radius:8px; padding:10px; text-align:center; }
   .config-valor { font-size:20px; font-weight:700; color:#00c853; }
   .config-label { font-size:10px; color:#444; margin-top:2px; }
+  .config-input {
+    width:60%; background:transparent; border:none; text-align:center;
+    font-size:20px; font-weight:700; color:#00c853; outline:none;
+  }
+  .config-input:focus { border-bottom:1px solid #00c853; }
 
   .audio-card {
     background:#0d0d0d; border:1px solid #1a1a1a;
@@ -270,7 +324,7 @@
   <div class="logo">
     <div class="logo-icon">📈</div>
     <div class="logo-text">
-      <h1>De $0 a $10,000,000</h1>
+      <h1 id="tituloProyectoActual">De $0 a $10,000,000</h1>
       <p>Estudio de Producción</p>
     </div>
   </div>
@@ -280,20 +334,30 @@
 <div class="tabs">
   <div class="tab activo" onclick="cambiarTab('imagenes')">
     🖼️ Imágenes
-    <span id="tabImg">0/25</span>
+    <span id="tabImg">0/0</span>
   </div>
   <div class="tab" onclick="cambiarTab('videos')">
     🎬 Videos
-    <span id="tabVid">0/25</span>
+    <span id="tabVid">0/0</span>
   </div>
   <div class="tab" onclick="cambiarTab('audio')">
     🎙️ Audio
-    <span id="tabAud">0/25</span>
+    <span id="tabAud">0/0</span>
   </div>
   <div class="tab" onclick="cambiarTab('progreso')">
     📊 Progreso
     <span></span>
   </div>
+</div>
+
+<div class="proyecto-bar">
+  <select id="selectProyecto" onchange="cambiarProyecto(this.value)"></select>
+  <button class="btn-proy" onclick="nuevoProyecto()" title="Nuevo proyecto">+ Nuevo</button>
+  <button class="btn-proy" onclick="renombrarProyecto()" title="Renombrar proyecto">✏️</button>
+  <button class="btn-proy" onclick="eliminarProyecto()" title="Eliminar proyecto">🗑️</button>
+  <button class="btn-proy" onclick="exportarProyecto()" title="Exportar como JSON">⬇ JSON</button>
+  <button class="btn-proy" onclick="document.getElementById('inputImportar').click()" title="Importar desde JSON">⬆ JSON</button>
+  <input type="file" id="inputImportar" accept="application/json" style="display:none" onchange="importarProyecto(this)">
 </div>
 
 <!-- TAB IMÁGENES -->
@@ -309,10 +373,11 @@
 
   <div class="instrucciones">
     <strong>📋 INSTRUCCIONES</strong>
-    1. Ingresa tu clave API de Google AI Studio<br>
+    1. Ingresa tu clave API de Google AI Studio (se guarda en este navegador)<br>
     2. Sube la imagen de referencia de tu personaje<br>
-    3. Toca "Generar Todo" — la app genera las 25 escenas automáticamente<br>
-    4. Descarga todas las imágenes al finalizar
+    3. Toca "Generar Todo" — la app genera todas las escenas automáticamente<br>
+    4. Las imágenes quedan guardadas aunque cierres o refresques la página<br>
+    5. Usa ✏️ en cada escena para editar su prompt, o "+ Agregar Escena" para crear más
   </div>
 
   <div class="ref-box" onclick="document.getElementById('inputRef').click()">
@@ -327,12 +392,13 @@
   <div class="gen-box">
     <div class="gen-header">
       <div class="gen-titulo">GENERACIÓN EN LOTE</div>
-      <div class="gen-contador"><span id="numGen">0</span><span> / 25</span></div>
+      <div class="gen-contador"><span id="numGen">0</span><span> / <span id="totalImg">0</span></span></div>
     </div>
     <div class="barra-wrap"><div class="barra-fill" id="barraGen"></div></div>
     <div class="gen-estado" id="estadoGen">Ingresa tu clave API y toca Generar Todo</div>
     <div class="btn-row">
       <button class="btn-generar" id="btnGenerar" onclick="generarTodo()">⚡ Generar Todo</button>
+      <button class="btn-cancelar" id="btnCancelar" onclick="cancelarGeneracion()" style="display:none">⏹</button>
       <button class="btn-descargar-todo" id="btnDescargarTodo" onclick="descargarTodo()" disabled>⬇ Descargar Todo</button>
     </div>
   </div>
@@ -343,6 +409,7 @@
   </div>
 
   <div class="escenas-grid" id="gridEscenas"></div>
+  <button class="btn-agregar-escena" onclick="agregarEscena()">+ Agregar Escena</button>
 </div>
 
 <!-- TAB VIDEOS -->
@@ -362,14 +429,39 @@
 <div class="contenido" id="tab-audio">
   <div class="audio-config">
     <h3>⚙️ CONFIGURACIÓN ELEVENLABS</h3>
-    <div class="config-grid">
-      <div class="config-item"><div class="config-valor">42%</div><div class="config-label">Estabilidad</div></div>
-      <div class="config-item"><div class="config-valor">78%</div><div class="config-label">Claridad</div></div>
-      <div class="config-item"><div class="config-valor">38%</div><div class="config-label">Estilo</div></div>
-      <div class="config-item"><div class="config-valor">ON</div><div class="config-label">Speaker Boost</div></div>
+    <div class="api-row" style="margin-bottom:10px">
+      <input type="password" class="api-input" id="elevenKey" placeholder="Clave API de ElevenLabs" />
+      <button class="btn-api" onclick="cargarVoces()">Cargar Voces</button>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:#444;">Voz recomendada: Daniel — Multilingual v2</div>
+    <select id="vozId" class="api-input" style="width:100%;margin-bottom:12px" onchange="localStorage.setItem('vozIdSeleccionada', this.value)">
+      <option value="">Ingresa tu clave y toca "Cargar Voces"</option>
+    </select>
+    <div class="config-grid">
+      <div class="config-item"><input type="number" id="cfgEstabilidad" class="config-input" value="42" min="0" max="100"><div class="config-label">Estabilidad %</div></div>
+      <div class="config-item"><input type="number" id="cfgClaridad" class="config-input" value="78" min="0" max="100"><div class="config-label">Claridad %</div></div>
+      <div class="config-item"><input type="number" id="cfgEstilo" class="config-input" value="38" min="0" max="100"><div class="config-label">Estilo %</div></div>
+      <div class="config-item"><label style="display:flex;align-items:center;gap:6px;justify-content:center;cursor:pointer"><input type="checkbox" id="cfgBoost" checked style="accent-color:#00c853;width:16px;height:16px"><span class="config-label" style="margin:0">Speaker Boost</span></label></div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#444;">Voz recomendada: Daniel — Multilingual v2. La generación llama directo a la API de ElevenLabs desde tu navegador.</div>
   </div>
+
+  <div class="gen-box">
+    <div class="gen-header">
+      <div class="gen-titulo">GENERACIÓN DE AUDIO EN LOTE</div>
+      <div class="gen-contador"><span id="numGenAudio">0</span><span> / <span id="totalAudio">0</span></span></div>
+    </div>
+    <div class="barra-wrap"><div class="barra-fill" id="barraGenAudio"></div></div>
+    <div class="btn-row">
+      <button class="btn-generar" id="btnGenerarAudio" onclick="generarTodoAudio()">🔊 Generar Todo el Audio</button>
+      <button class="btn-cancelar" id="btnCancelarAudio" onclick="cancelarAudio()" style="display:none">⏹</button>
+    </div>
+  </div>
+
+  <div class="estado-bar" id="estadoBarAudio">
+    <div class="punto" id="puntitoAudio"></div>
+    <span id="estadoMsgAudio">Configura tu clave para generar audio real, o copia el guion y grábalo tú mismo</span>
+  </div>
+
   <div id="listaAudio"></div>
 </div>
 
@@ -387,9 +479,33 @@
   </div>
 </div>
 
+<!-- MODAL EDICIÓN DE ESCENA -->
+<div class="modal-overlay" id="modalEditar">
+  <div class="modal-box">
+    <h3>✏️ Editar Escena</h3>
+    <label>Nivel</label>
+    <input id="edNivel" placeholder="Ej: NIVEL $1,000">
+    <label>Título</label>
+    <input id="edTitulo" placeholder="Título de la escena">
+    <label>Duración (segundos)</label>
+    <input id="edDuracion" type="number" min="1" max="60">
+    <label>Prompt de Imagen (Gemini/Imagen)</label>
+    <textarea id="edPrompt" placeholder="Descripción visual en inglés para generar la imagen"></textarea>
+    <label>Prompt de Video (Kling AI)</label>
+    <textarea id="edVideo" placeholder="Descripción de movimiento/acción para el video"></textarea>
+    <label>Guion de Audio (ElevenLabs)</label>
+    <textarea id="edGuion" style="min-height:100px" placeholder="Texto narrado, usa [pausa] para silencios"></textarea>
+    <div class="modal-btns">
+      <button class="btn-guardar" onclick="guardarEdicion()">💾 Guardar</button>
+      <button class="btn-cerrar-modal" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-eliminar-modal" id="btnEliminarEscena" onclick="eliminarEscenaModal()">🗑️ Eliminar</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ─── DATOS ────────────────────────────────────────────────────────────────────
-const ESCENAS = [
+// ─── DATOS SEMILLA (proyecto por defecto) ──────────────────────────────────────
+const ESCENAS_SEED = [
   { id:1, nivel:"INTRO", titulo:"El personaje mirando cuenta en $0", duracion:8,
     prompt:`3D animated young Latino male, dark navy suit, burgundy tie, sitting alone in dimly lit apartment, staring at phone showing $0.00 balance, stressed worried expression, cold blue light, Pixar-Disney style, cinematic 16:9`,
     video:`Personaje sentado solo en apartamento oscuro, mirando lentamente el teléfono que muestra $0, hombros caídos de derrota, luz azul fría, zoom lento hacia su cara, 8 segundos, cinematográfico`,
@@ -492,41 +608,181 @@ const ESCENAS = [
     guion:`¿En qué nivel estás tú hoy?\n\nEscríbelo en los comentarios.\nSin vergüenza.\n\nPorque el primer paso para subir...\n\nes saber dónde estás.\n\n[pausa]\n\nSi este video te abrió los ojos...\nsuscríbete.\n\nPorque apenas...\nestamos empezando.` }
 ];
 
-// ─── ESTADO ───────────────────────────────────────────────────────────────────
-let corriendo = false;
-let detener = false;
+// ─── ESTADO GLOBAL ──────────────────────────────────────────────────────────────
+let PROYECTOS = {};
+let PROGRESO = {};
+let proyectoActualId = null;
+let ESCENAS = [];
+let checkboxes = {};
 let imagenes = {};
-let checkboxes = JSON.parse(localStorage.getItem('checkboxes') || '{}');
+let audios = {};
+let corriendo = false, detener = false;
+let corriendoAudio = false, detenerAudio = false;
+let editandoId = null;
+
+// ─── PERSISTENCIA: PROYECTOS Y PROGRESO (localStorage, solo texto) ─────────────
+function cargarProyectos() {
+  const raw = localStorage.getItem('proyectos_v3');
+  if (raw) { try { return JSON.parse(raw); } catch(e) {} }
+  return { default: { nombre: 'De $0 a $10,000,000', escenas: ESCENAS_SEED } };
+}
+function guardarProyectos() { localStorage.setItem('proyectos_v3', JSON.stringify(PROYECTOS)); }
+function cargarProgreso() {
+  const raw = localStorage.getItem('progreso_v1');
+  if (raw) { try { return JSON.parse(raw); } catch(e) {} }
+  return {};
+}
+function guardarProgresoLS() { localStorage.setItem('progreso_v1', JSON.stringify(PROGRESO)); }
+
+// ─── PERSISTENCIA: IMÁGENES Y AUDIO (IndexedDB, soporta datos grandes) ─────────
+const DB_NOMBRE = 'estudio_produccion_db';
+const DB_STORE = 'media';
+let dbPromise = null;
+function abrirDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NOMBRE, 1);
+    req.onupgradeneeded = () => { req.result.createObjectStore(DB_STORE); };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return dbPromise;
+}
+async function dbSet(key, value) {
+  const db = await abrirDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).put(value, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+async function dbGet(key) {
+  const db = await abrirDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, 'readonly');
+    const req = tx.objectStore(DB_STORE).get(key);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function dbDelete(key) {
+  const db = await abrirDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, 'readwrite');
+    tx.objectStore(DB_STORE).delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+async function dbGetAllKeysForProject(projId) {
+  const db = await abrirDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DB_STORE, 'readonly');
+    const req = tx.objectStore(DB_STORE).getAllKeys();
+    req.onsuccess = () => resolve(req.result.filter(k => k.startsWith(projId+'::')));
+    req.onerror = () => reject(req.error);
+  });
+}
+function mediaKey(id, tipo) { return proyectoActualId+'::'+id+'::'+tipo; }
+
+async function cargarMediaProyecto() {
+  try {
+    const claves = await dbGetAllKeysForProject(proyectoActualId);
+    for (const k of claves) {
+      const partes = k.split('::');
+      const sceneId = Number(partes[1]);
+      const tipo = partes[2];
+      const valor = await dbGet(k);
+      if (!valor) continue;
+      if (tipo === 'img') imagenes[sceneId] = { url: valor, titulo: (ESCENAS.find(e=>e.id===sceneId)||{}).titulo || '' };
+      if (tipo === 'aud') audios[sceneId] = valor;
+    }
+  } catch(e) { console.warn('IndexedDB no disponible, las imágenes/audio no persistirán entre sesiones', e); }
+}
+
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(blob);
+  });
+}
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-function init() {
+async function init() {
+  PROYECTOS = cargarProyectos();
+  PROGRESO = cargarProgreso();
+  proyectoActualId = localStorage.getItem('proyectoActual');
+  if (!proyectoActualId || !PROYECTOS[proyectoActualId]) proyectoActualId = Object.keys(PROYECTOS)[0];
+
+  ESCENAS = PROYECTOS[proyectoActualId].escenas;
+  PROGRESO[proyectoActualId] = PROGRESO[proyectoActualId] || {};
+  checkboxes = PROGRESO[proyectoActualId];
+
+  await cargarMediaProyecto();
+  poblarSelectorProyectos();
+  renderTodo();
+
+  document.getElementById('apiKey').value = localStorage.getItem('geminiKey') || '';
+  restaurarConfigAudio();
+}
+
+function restaurarConfigAudio() {
+  const key = localStorage.getItem('elevenKey');
+  if (key) document.getElementById('elevenKey').value = key;
+  const cache = localStorage.getItem('vocesCache');
+  if (cache) {
+    try {
+      const voces = JSON.parse(cache);
+      document.getElementById('vozId').innerHTML = voces.map(v => `<option value="${v.voice_id}">${v.name}</option>`).join('');
+      const guardada = localStorage.getItem('vozIdSeleccionada');
+      if (guardada) document.getElementById('vozId').value = guardada;
+    } catch(e) {}
+  }
+}
+
+function renderTodo() {
+  document.getElementById('gridEscenas').innerHTML = '';
+  document.getElementById('listaVideos').innerHTML = '';
+  document.getElementById('listaAudio').innerHTML = '';
+  document.getElementById('listaFases').innerHTML = '';
   initGrid();
   initVideos();
   initAudio();
   initProgreso();
+  document.getElementById('tituloProyectoActual').textContent = PROYECTOS[proyectoActualId].nombre;
+  document.getElementById('totalImg').textContent = ESCENAS.length;
+  document.getElementById('totalAudio').textContent = ESCENAS.length;
+  actualizarBarra(Object.keys(imagenes).length);
+  document.getElementById('btnDescargarTodo').disabled = Object.keys(imagenes).length === 0;
 }
 
 function initGrid() {
   const grid = document.getElementById('gridEscenas');
   ESCENAS.forEach(e => {
     const card = document.createElement('div');
-    card.className = 'escena-card';
+    card.className = 'escena-card' + (imagenes[e.id] ? ' lista' : '');
     card.id = `card-${e.id}`;
     card.innerHTML = `
       <div class="escena-imagen" id="img-${e.id}">
-        <div class="escena-placeholder">🖼️<br>Esperando</div>
+        ${imagenes[e.id]
+          ? `<img src="${imagenes[e.id].url}" alt="${e.titulo}" />`
+          : `<div class="escena-placeholder">🖼️<br>Esperando</div>`}
         <div class="escena-num">${String(e.id).padStart(2,'0')}</div>
       </div>
       <div class="escena-body">
         <div class="escena-nivel">${e.nivel}</div>
         <div class="escena-titulo">${e.titulo}</div>
         <div class="escena-acciones">
-          <button class="btn-copiar" onclick="copiarPrompt(${e.id}, this)">📋 Copiar Prompt</button>
-          <button class="btn-gen-uno" id="btn-uno-${e.id}" onclick="generarUna(${e.id})">⚡</button>
+          <button class="btn-copiar" onclick="copiarPrompt(${e.id}, this)">📋 Prompt</button>
+          <button class="btn-gen-uno" id="btn-uno-${e.id}" onclick="generarUna(${e.id})">${imagenes[e.id] ? '✓' : '⚡'}</button>
+          <button class="btn-gen-uno" onclick="abrirModalEditar(${e.id})" title="Editar escena">✏️</button>
         </div>
         <div class="escena-error" id="err-${e.id}" style="display:none"></div>
         <div class="checkbox-wrap">
-          <input type="checkbox" id="chk-${e.id}" ${checkboxes[e.id] ? 'checked' : ''} onchange="guardarCheck(${e.id})">
+          <input type="checkbox" id="chk-${e.id}" ${checkboxes[e.id] ? 'checked' : ''} onchange="guardarCheck(${e.id}, this.checked)">
           <label for="chk-${e.id}">Completada</label>
         </div>
       </div>`;
@@ -549,13 +805,12 @@ function initVideos() {
       <div class="escena-acciones">
         <button class="btn-copiar" onclick="copiarTexto('${e.video.replace(/'/g,"\\'")}', this)">📋 Copiar Prompt</button>
         <div class="checkbox-wrap" style="margin:0">
-          <input type="checkbox" id="vchk-${e.id}" ${checkboxes['v'+e.id] ? 'checked' : ''} onchange="guardarCheck('v'+${e.id})">
+          <input type="checkbox" id="vchk-${e.id}" ${checkboxes['v'+e.id] ? 'checked' : ''} onchange="guardarCheck('v'+${e.id}, this.checked)">
           <label for="vchk-${e.id}">Listo</label>
         </div>
       </div>`;
     lista.appendChild(card);
   });
-  document.getElementById('tabVid').textContent = `0/${ESCENAS.length}`;
 }
 
 function initAudio() {
@@ -569,9 +824,16 @@ function initAudio() {
           <h4>${String(e.id).padStart(2,'0')} — ${e.titulo}</h4>
           <p>${e.nivel}</p>
         </div>
-        <button class="btn-copiar" style="width:auto" onclick="event.stopPropagation();copiarTexto(\`${e.guion.replace(/`/g,'\\`')}\`, this)">📋 Copiar</button>
+        <div style="display:flex;gap:6px;align-items:center" onclick="event.stopPropagation()">
+          <button class="btn-gen-uno" id="btn-audio-${e.id}" onclick="generarAudioUno(${e.id})" title="Generar audio con ElevenLabs">${audios[e.id] ? '✓' : '🔊'}</button>
+          <button class="btn-copiar" style="width:auto" onclick="copiarTexto(\`${e.guion.replace(/`/g,'\\`')}\`, this)">📋</button>
+        </div>
       </div>
-      <div class="audio-guion">${e.guion}</div>`;
+      <div class="audio-guion">${e.guion}${audios[e.id] ? `<div style="margin-top:12px"><audio controls src="${audios[e.id]}" style="width:100%"></audio><button class="btn-copiar" style="margin-top:8px" onclick="descargarAudio(${e.id})">⬇ Descargar MP3</button></div>` : ''}</div>
+      <div class="checkbox-wrap" style="padding:0 14px 14px">
+        <input type="checkbox" id="achk-${e.id}" ${checkboxes['a'+e.id] ? 'checked' : ''} onchange="guardarCheck('a'+${e.id}, this.checked)">
+        <label for="achk-${e.id}">Grabado</label>
+      </div>`;
     lista.appendChild(card);
   });
 }
@@ -579,11 +841,11 @@ function initAudio() {
 function initProgreso() {
   const lista = document.getElementById('listaFases');
   const fases = [
-    { nombre:'🖼️ Imágenes generadas', pct:0, id:'fase-img' },
-    { nombre:'🎬 Videos generados', pct:0, id:'fase-vid' },
-    { nombre:'🎙️ Audio grabado', pct:0, id:'fase-aud' },
-    { nombre:'✂️ Edición en CapCut', pct:0, id:'fase-edit' },
-    { nombre:'🚀 Video publicado', pct:0, id:'fase-pub' },
+    { nombre:'🖼️ Imágenes generadas', id:'fase-img' },
+    { nombre:'🎬 Videos generados', id:'fase-vid' },
+    { nombre:'🎙️ Audio grabado', id:'fase-aud' },
+    { nombre:'✂️ Edición en CapCut', id:'fase-edit' },
+    { nombre:'🚀 Video publicado', id:'fase-pub' },
   ];
   fases.forEach(f => {
     const card = document.createElement('div');
@@ -600,7 +862,137 @@ function initProgreso() {
   actualizarProgreso();
 }
 
-// ─── FUNCIONES ────────────────────────────────────────────────────────────────
+// ─── GESTIÓN DE PROYECTOS ───────────────────────────────────────────────────────
+function poblarSelectorProyectos() {
+  const sel = document.getElementById('selectProyecto');
+  sel.innerHTML = Object.entries(PROYECTOS).map(([id,p]) =>
+    `<option value="${id}" ${id===proyectoActualId ? 'selected' : ''}>${p.nombre}</option>`).join('');
+}
+
+async function cambiarProyecto(id) {
+  if (!PROYECTOS[id] || corriendo || corriendoAudio) return;
+  proyectoActualId = id;
+  localStorage.setItem('proyectoActual', id);
+  ESCENAS = PROYECTOS[id].escenas;
+  PROGRESO[id] = PROGRESO[id] || {};
+  checkboxes = PROGRESO[id];
+  imagenes = {};
+  audios = {};
+  await cargarMediaProyecto();
+  poblarSelectorProyectos();
+  renderTodo();
+}
+
+function nuevoProyecto() {
+  const nombre = prompt('Nombre del nuevo proyecto:');
+  if (!nombre) return;
+  const id = 'proj_' + Date.now();
+  PROYECTOS[id] = { nombre, escenas: [] };
+  guardarProyectos();
+  cambiarProyecto(id);
+}
+
+function renombrarProyecto() {
+  const actual = PROYECTOS[proyectoActualId];
+  const nombre = prompt('Nuevo nombre:', actual.nombre);
+  if (!nombre) return;
+  actual.nombre = nombre;
+  guardarProyectos();
+  poblarSelectorProyectos();
+  document.getElementById('tituloProyectoActual').textContent = nombre;
+}
+
+async function eliminarProyecto() {
+  if (Object.keys(PROYECTOS).length <= 1) { alert('No puedes eliminar el único proyecto que tienes.'); return; }
+  if (!confirm(`¿Eliminar el proyecto "${PROYECTOS[proyectoActualId].nombre}"? Se perderán sus imágenes y audios generados.`)) return;
+  const claves = await dbGetAllKeysForProject(proyectoActualId);
+  for (const k of claves) await dbDelete(k);
+  delete PROYECTOS[proyectoActualId];
+  delete PROGRESO[proyectoActualId];
+  guardarProyectos();
+  guardarProgresoLS();
+  await cambiarProyecto(Object.keys(PROYECTOS)[0]);
+}
+
+function exportarProyecto() {
+  const data = JSON.stringify({ nombre: PROYECTOS[proyectoActualId].nombre, escenas: ESCENAS }, null, 2);
+  const blob = new Blob([data], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${PROYECTOS[proyectoActualId].nombre.replace(/[^\w]/g,'_')}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function importarProyecto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!Array.isArray(data.escenas)) throw new Error('El archivo no tiene un formato válido (falta "escenas")');
+      const id = 'proj_' + Date.now();
+      PROYECTOS[id] = { nombre: data.nombre || 'Proyecto importado', escenas: data.escenas };
+      guardarProyectos();
+      await cambiarProyecto(id);
+    } catch(err) { alert('Error al importar: ' + err.message); }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+// ─── EDICIÓN DE ESCENAS ─────────────────────────────────────────────────────────
+function agregarEscena() {
+  const nuevoId = ESCENAS.length ? Math.max(...ESCENAS.map(e => e.id)) + 1 : 1;
+  abrirModalEditar(nuevoId, true);
+}
+
+function abrirModalEditar(id, esNueva = false) {
+  editandoId = id;
+  const e = ESCENAS.find(x => x.id === id) || { nivel:'', titulo:'', duracion:8, prompt:'', video:'', guion:'' };
+  document.getElementById('edNivel').value = e.nivel;
+  document.getElementById('edTitulo').value = e.titulo;
+  document.getElementById('edDuracion').value = e.duracion;
+  document.getElementById('edPrompt').value = e.prompt;
+  document.getElementById('edVideo').value = e.video;
+  document.getElementById('edGuion').value = e.guion;
+  document.getElementById('btnEliminarEscena').style.display = esNueva ? 'none' : 'inline-block';
+  document.getElementById('modalEditar').style.display = 'flex';
+}
+
+function cerrarModal() { document.getElementById('modalEditar').style.display = 'none'; }
+
+function guardarEdicion() {
+  const id = editandoId;
+  let e = ESCENAS.find(x => x.id === id);
+  if (!e) { e = { id }; ESCENAS.push(e); }
+  e.nivel = document.getElementById('edNivel').value.trim() || 'ESCENA';
+  e.titulo = document.getElementById('edTitulo').value.trim() || 'Sin título';
+  e.duracion = Number(document.getElementById('edDuracion').value) || 8;
+  e.prompt = document.getElementById('edPrompt').value.trim();
+  e.video = document.getElementById('edVideo').value.trim();
+  e.guion = document.getElementById('edGuion').value.trim();
+  guardarProyectos();
+  cerrarModal();
+  renderTodo();
+}
+
+async function eliminarEscenaModal() {
+  if (!confirm('¿Eliminar esta escena? Esta acción no se puede deshacer.')) return;
+  const id = editandoId;
+  const idx = ESCENAS.findIndex(x => x.id === id);
+  if (idx > -1) ESCENAS.splice(idx, 1);
+  delete imagenes[id];
+  delete audios[id];
+  await dbDelete(mediaKey(id,'img'));
+  await dbDelete(mediaKey(id,'aud'));
+  guardarProyectos();
+  cerrarModal();
+  renderTodo();
+}
+
+// ─── FUNCIONES GENERALES ────────────────────────────────────────────────────────
 function cambiarTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
   document.querySelectorAll('.contenido').forEach(c => c.classList.remove('activo'));
@@ -628,7 +1020,7 @@ async function probarClave() {
   setEstado('activo','Probando clave API...');
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-    if (r.ok) setEstado('listo','✓ Clave API válida — lista para generar');
+    if (r.ok) { localStorage.setItem('geminiKey', key); setEstado('listo','✓ Clave API válida — lista para generar'); }
     else setEstado('error','Clave inválida. Verifica en aistudio.google.com');
   } catch(e) {
     setEstado('error','Error de conexión: '+e.message);
@@ -639,10 +1031,13 @@ async function generarTodo() {
   const key = document.getElementById('apiKey').value.trim();
   if (!key) { setEstado('error','Ingresa tu clave API primero'); return; }
   if (corriendo) return;
+  localStorage.setItem('geminiKey', key);
   corriendo = true;
   detener = false;
   document.getElementById('btnGenerar').disabled = true;
   document.getElementById('btnGenerar').textContent = '⏳ Generando...';
+  document.getElementById('btnCancelar').style.display = 'inline-block';
+  document.getElementById('btnCancelar').disabled = false;
 
   let ok = 0, fallo = 0;
 
@@ -652,12 +1047,13 @@ async function generarTodo() {
     if (imagenes[e.id]) { ok++; actualizarBarra(ok+fallo); continue; }
 
     setCardEstado(e.id, 'generando');
-    setEstado('activo', `[${e.id}/25] Generando: ${e.titulo}...`);
+    setEstado('activo', `[${e.id}/${ESCENAS.length}] Generando: ${e.titulo}...`);
     mostrarSpinner(e.id);
 
     try {
       const url = await llamarGemini(key, e.prompt);
       imagenes[e.id] = { url, titulo: e.titulo };
+      await dbSet(mediaKey(e.id,'img'), url);
       mostrarImagen(e.id, url, e.titulo);
       setCardEstado(e.id, 'lista');
       document.getElementById(`btn-uno-${e.id}`).textContent = '✓';
@@ -676,22 +1072,31 @@ async function generarTodo() {
   corriendo = false;
   document.getElementById('btnGenerar').disabled = false;
   document.getElementById('btnGenerar').textContent = '⚡ Generar Todo';
+  document.getElementById('btnCancelar').style.display = 'none';
 
-  if (ok === ESCENAS.length) {
-    setEstado('listo', `✓ ¡Las 25 imágenes generadas! Descarga todo abajo.`);
-    document.getElementById('btnDescargarTodo').disabled = false;
+  if (detener) {
+    setEstado('error', `Detenido. ${ok} generadas, ${fallo} fallidas.`);
+  } else if (ok === ESCENAS.length) {
+    setEstado('listo', `✓ ¡Las ${ESCENAS.length} imágenes generadas! Descarga todo abajo.`);
   } else if (ok > 0) {
     setEstado('listo', `${ok} generadas, ${fallo} fallidas. Usa ⚡ para reintentar.`);
-    document.getElementById('btnDescargarTodo').disabled = false;
   } else {
     setEstado('error', 'Todas fallaron. Verifica tu clave API.');
   }
+  document.getElementById('btnDescargarTodo').disabled = Object.keys(imagenes).length === 0;
+}
+
+function cancelarGeneracion() {
+  detener = true;
+  document.getElementById('btnCancelar').disabled = true;
+  setEstado('activo', 'Deteniendo tras terminar la escena actual...');
 }
 
 async function generarUna(id) {
   const key = document.getElementById('apiKey').value.trim();
   if (!key) { setEstado('error','Ingresa tu clave API primero'); return; }
   if (corriendo) return;
+  localStorage.setItem('geminiKey', key);
 
   const e = ESCENAS.find(x => x.id === id);
   setCardEstado(id, 'generando');
@@ -702,11 +1107,13 @@ async function generarUna(id) {
   try {
     const url = await llamarGemini(key, e.prompt);
     imagenes[id] = { url, titulo: e.titulo };
+    await dbSet(mediaKey(id,'img'), url);
     mostrarImagen(id, url, e.titulo);
     setCardEstado(id, 'lista');
     document.getElementById(`btn-uno-${id}`).textContent = '✓';
     setEstado('listo', `✓ Escena ${id} generada`);
     actualizarProgreso();
+    document.getElementById('btnDescargarTodo').disabled = false;
   } catch(err) {
     setCardEstado(id, 'error');
     mostrarError(id, err.message);
@@ -714,25 +1121,35 @@ async function generarUna(id) {
   }
 }
 
-async function llamarGemini(key, prompt) {
-  const body = {
-    instances: [{ prompt }],
-    parameters: { sampleCount: 1 }
-  };
+async function llamarGemini(key, prompt, intentos = 2) {
+  for (let intento = 0; intento <= intentos; intento++) {
+    let r;
+    try {
+      const body = { instances: [{ prompt }], parameters: { sampleCount: 1 } };
+      r = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${key}`,
+        { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }
+      );
+    } catch(e) {
+      if (intento >= intentos) throw new Error('Error de conexión: '+e.message);
+      await esperar(4000*(intento+1));
+      continue;
+    }
 
-  const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${key}`,
-    { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) }
-  );
+    if (!r.ok) {
+      const err = await r.json().catch(()=>({}));
+      const msg = err.error?.message || `Error HTTP ${r.status}`;
+      if ((r.status === 429 || r.status >= 500) && intento < intentos) {
+        await esperar(4000*(intento+1));
+        continue;
+      }
+      throw new Error(msg);
+    }
 
-  if (!r.ok) {
-    const err = await r.json().catch(()=>({}));
-    throw new Error(err.error?.message || `Error HTTP ${r.status}`);
+    const data = await r.json();
+    if (!data.predictions?.[0]?.bytesBase64Encoded) throw new Error('Sin imagen en respuesta');
+    return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
   }
-
-  const data = await r.json();
-  if (!data.predictions?.[0]?.bytesBase64Encoded) throw new Error('Sin imagen en respuesta');
-  return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
 }
 
 async function descargarTodo() {
@@ -771,26 +1188,27 @@ function copiarTexto(texto, btn) {
   });
 }
 
-function guardarCheck(id) {
-  checkboxes[id] = document.getElementById(`chk-${id}`)?.checked || document.getElementById(`vchk-${id}`)?.checked;
-  localStorage.setItem('checkboxes', JSON.stringify(checkboxes));
+function guardarCheck(key, checked) {
+  checkboxes[key] = checked;
+  guardarProgresoLS();
   actualizarProgreso();
 }
 
 function actualizarProgreso() {
-  const imgDone = Object.keys(imagenes).length;
+  const total = ESCENAS.length;
+  const imgDone = ESCENAS.filter(e => imagenes[e.id]).length;
   const vidDone = ESCENAS.filter(e => checkboxes['v'+e.id]).length;
-  const audDone = ESCENAS.filter(e => checkboxes['a'+e.id]).length;
+  const audDone = ESCENAS.filter(e => audios[e.id] || checkboxes['a'+e.id]).length;
 
-  const total = (imgDone + vidDone + audDone) / (ESCENAS.length * 3) * 100;
-  document.getElementById('progresoTotal').textContent = `${Math.round(total)}% Completado`;
-  document.getElementById('tabImg').textContent = `${imgDone}/${ESCENAS.length}`;
-  document.getElementById('tabVid').textContent = `${vidDone}/${ESCENAS.length}`;
-  document.getElementById('tabAud').textContent = `${audDone}/${ESCENAS.length}`;
+  const pctTotal = total ? (imgDone + vidDone + audDone) / (total * 3) * 100 : 0;
+  document.getElementById('progresoTotal').textContent = `${Math.round(pctTotal)}% Completado`;
+  document.getElementById('tabImg').textContent = `${imgDone}/${total}`;
+  document.getElementById('tabVid').textContent = `${vidDone}/${total}`;
+  document.getElementById('tabAud').textContent = `${audDone}/${total}`;
 
-  setFase('fase-img', Math.round(imgDone/ESCENAS.length*100));
-  setFase('fase-vid', Math.round(vidDone/ESCENAS.length*100));
-  setFase('fase-aud', Math.round(audDone/ESCENAS.length*100));
+  setFase('fase-img', total ? Math.round(imgDone/total*100) : 0);
+  setFase('fase-vid', total ? Math.round(vidDone/total*100) : 0);
+  setFase('fase-aud', total ? Math.round(audDone/total*100) : 0);
 }
 
 function setFase(id, pct) {
@@ -800,9 +1218,141 @@ function setFase(id, pct) {
   if (fill) fill.style.width = pct+'%';
 }
 
+// ─── AUDIO REAL — ELEVENLABS ────────────────────────────────────────────────────
+async function cargarVoces() {
+  const key = document.getElementById('elevenKey').value.trim();
+  if (!key) { setEstadoAudio('error','Ingresa tu clave de ElevenLabs primero'); return; }
+  setEstadoAudio('activo','Cargando voces...');
+  try {
+    const r = await fetch('https://api.elevenlabs.io/v1/voices', { headers:{'xi-api-key':key} });
+    if (!r.ok) throw new Error('Clave inválida o sin permisos');
+    const data = await r.json();
+    const sel = document.getElementById('vozId');
+    sel.innerHTML = data.voices.map(v => `<option value="${v.voice_id}">${v.name}</option>`).join('');
+    localStorage.setItem('elevenKey', key);
+    localStorage.setItem('vocesCache', JSON.stringify(data.voices));
+    setEstadoAudio('listo', `✓ ${data.voices.length} voces cargadas — elige una en el menú`);
+  } catch(e) { setEstadoAudio('error','Error: '+e.message); }
+}
+
+async function llamarElevenLabs(key, vozId, texto, intentos = 2) {
+  const stability = Number(document.getElementById('cfgEstabilidad').value)/100;
+  const similarity_boost = Number(document.getElementById('cfgClaridad').value)/100;
+  const style = Number(document.getElementById('cfgEstilo').value)/100;
+  const use_speaker_boost = document.getElementById('cfgBoost').checked;
+  const limpio = texto.replace(/\[pausa\]/gi, '...');
+
+  for (let intento = 0; intento <= intentos; intento++) {
+    const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${vozId}`, {
+      method:'POST',
+      headers:{'xi-api-key':key,'Content-Type':'application/json','Accept':'audio/mpeg'},
+      body: JSON.stringify({ text: limpio, model_id:'eleven_multilingual_v2', voice_settings:{ stability, similarity_boost, style, use_speaker_boost } })
+    });
+    if (r.ok) { const blob = await r.blob(); return blobToDataURL(blob); }
+    if ((r.status === 429 || r.status >= 500) && intento < intentos) { await esperar(4000*(intento+1)); continue; }
+    const err = await r.json().catch(()=>({}));
+    throw new Error(err.detail?.message || `Error HTTP ${r.status}`);
+  }
+}
+
+async function generarAudioUno(id) {
+  const key = document.getElementById('elevenKey').value.trim();
+  const vozId = document.getElementById('vozId').value;
+  if (!key || !vozId) { setEstadoAudio('error','Ingresa tu clave y carga/selecciona una voz primero'); return; }
+  if (corriendoAudio) return;
+  localStorage.setItem('elevenKey', key);
+
+  const e = ESCENAS.find(x => x.id === id);
+  if (!e) return;
+  const btn = document.getElementById(`btn-audio-${id}`);
+  if (btn) btn.textContent = '⏳';
+  setEstadoAudio('activo', `Generando audio: ${e.titulo}...`);
+
+  try {
+    const dataUrl = await llamarElevenLabs(key, vozId, e.guion);
+    audios[id] = dataUrl;
+    await dbSet(mediaKey(id,'aud'), dataUrl);
+    checkboxes['a'+id] = true;
+    guardarProgresoLS();
+    renderTodo();
+    setEstadoAudio('listo', `✓ Audio de "${e.titulo}" generado`);
+  } catch(err) {
+    if (btn) btn.textContent = '❌';
+    setEstadoAudio('error', `Error: ${err.message}`);
+  }
+}
+
+async function generarTodoAudio() {
+  const key = document.getElementById('elevenKey').value.trim();
+  const vozId = document.getElementById('vozId').value;
+  if (!key || !vozId) { setEstadoAudio('error','Ingresa tu clave y carga/selecciona una voz primero'); return; }
+  if (corriendoAudio) return;
+  localStorage.setItem('elevenKey', key);
+  corriendoAudio = true;
+  detenerAudio = false;
+  document.getElementById('btnGenerarAudio').disabled = true;
+  document.getElementById('btnGenerarAudio').textContent = '⏳ Generando...';
+  document.getElementById('btnCancelarAudio').style.display = 'inline-block';
+  document.getElementById('btnCancelarAudio').disabled = false;
+
+  let ok = 0, fallo = 0;
+  for (let i = 0; i < ESCENAS.length; i++) {
+    if (detenerAudio) break;
+    const e = ESCENAS[i];
+    if (audios[e.id]) { ok++; actualizarBarraAudio(ok+fallo); continue; }
+    setEstadoAudio('activo', `[${e.id}/${ESCENAS.length}] Generando audio: ${e.titulo}...`);
+    try {
+      const dataUrl = await llamarElevenLabs(key, vozId, e.guion);
+      audios[e.id] = dataUrl;
+      await dbSet(mediaKey(e.id,'aud'), dataUrl);
+      checkboxes['a'+e.id] = true;
+      ok++;
+    } catch(err) { fallo++; }
+    actualizarBarraAudio(ok+fallo);
+    guardarProgresoLS();
+    actualizarProgreso();
+    if (i < ESCENAS.length-1 && !detenerAudio) await esperar(2000);
+  }
+
+  renderTodo();
+  corriendoAudio = false;
+  document.getElementById('btnGenerarAudio').disabled = false;
+  document.getElementById('btnGenerarAudio').textContent = '🔊 Generar Todo el Audio';
+  document.getElementById('btnCancelarAudio').style.display = 'none';
+  setEstadoAudio(fallo === 0 ? 'listo' : 'error', detenerAudio ? `Detenido. ${ok} generados, ${fallo} fallidos.` : `${ok} generados, ${fallo} fallidos.`);
+}
+
+function cancelarAudio() {
+  detenerAudio = true;
+  document.getElementById('btnCancelarAudio').disabled = true;
+  setEstadoAudio('activo', 'Deteniendo tras terminar el audio actual...');
+}
+
+function actualizarBarraAudio(done) {
+  const pct = ESCENAS.length ? Math.round(done/ESCENAS.length*100) : 0;
+  document.getElementById('barraGenAudio').style.width = pct+'%';
+  document.getElementById('numGenAudio').textContent = done;
+}
+
+function descargarAudio(id) {
+  const url = audios[id];
+  if (!url) return;
+  const e = ESCENAS.find(x => x.id === id);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${String(id).padStart(2,'0')}_${(e?.titulo || 'audio').replace(/[^\w]/g,'_')}.mp3`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function setEstadoAudio(tipo, msg) {
+  const punto = document.getElementById('puntitoAudio');
+  punto.className = 'punto ' + (tipo === 'activo' ? 'activo' : tipo === 'listo' ? 'listo' : tipo === 'error' ? 'error' : '');
+  document.getElementById('estadoMsgAudio').textContent = msg;
+}
+
 // ─── UI HELPERS ───────────────────────────────────────────────────────────────
 function actualizarBarra(done) {
-  const pct = Math.round(done/ESCENAS.length*100);
+  const pct = ESCENAS.length ? Math.round(done/ESCENAS.length*100) : 0;
   document.getElementById('barraGen').style.width = pct+'%';
   document.getElementById('numGen').textContent = done;
 }
