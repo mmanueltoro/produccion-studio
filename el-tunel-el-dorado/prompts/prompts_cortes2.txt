@@ -1,0 +1,63 @@
+PROMPTS ADICIONALES — Módulo Sanitario "El Túnel"
+Mismo uso que los anteriores: pega cada bloque en ChatGPT (pídele imagen), DALL-E o
+Midjourney, uno a la vez.
+
+============================================================
+CORTE C-C — TRANSVERSAL (a lo ancho, por las filas de cubículos)
+============================================================
+Fotografía de arquitectura interior, encuadre frontal y plano (alzado/corte técnico,
+cámara perpendicular, sin perspectiva de tres cuartos), de un baño de hombres
+minimalista industrial visto de frente a lo ancho (9,83 m), cortando por la fila de
+cubículos de cada lado.
+
+En el centro, un tabique divisorio delgado de piso a techo (2,80 m). A cada lado, tres
+cubículos de baño con tabiquería de fenólico gris oscuro casi negro, de 1,80 m de
+altura, sin zócalo, dejando un pasillo lateral abierto hacia el muro exterior de cada
+módulo. Paredes en microcemento gris claro, piso continuo en pintura epóxica gris
+cemento. Sin techo propio: arriba se insinúa la estructura metálica abierta de un
+galpón industrial con luz cenital suave. Líneas verticales perfectamente rectas, sin
+distorsión de gran angular. Paleta: grises cálidos, negro mate, blanco cerámico. Sin
+personas, sin texto, sin marcas de agua, sin desorden.
+
+============================================================
+ELEVACIÓN E-E — PARED DE URINARIOS (vista frontal, de pie dentro del baño)
+============================================================
+Fotografía de arquitectura interior, encuadre completamente frontal (como una
+elevación técnica, cámara perpendicular a la pared, sin ángulo ni perspectiva), de
+una pared de microcemento gris claro de 3 metros de largo por 2,80 m de alto, con
+cuatro urinarios de loza blanca suspendidos en fila, separados 0,75 m entre ejes,
+a una altura de 0,35 a 0,97 m del piso, con tubería de fluxómetro cromada visible
+sobre cada uno. Piso continuo en pintura epóxica gris cemento. Sin techo propio:
+arriba se insinúa la estructura metálica abierta de un galpón industrial con luz
+cenital suave. Paleta: grises cálidos, blanco cerámico, acero cromado. Sin personas,
+sin texto, sin marcas de agua.
+
+============================================================
+ELEVACIÓN F-F — PARED DEL MESÓN (vista frontal, de pie dentro del baño)
+============================================================
+Fotografía de arquitectura interior, encuadre completamente frontal (elevación
+técnica, cámara perpendicular, sin perspectiva), de una pared de microcemento gris
+claro con un mesón corrido de concreto pulido gris oscuro de 2,40 m de largo, altura
+de tope 0,80 m, con tres lavamanos blancos empotrados y un frente descolgado del
+mismo concreto que oculta la tubería. Encima, un espejo parcial de piso a techo.
+Piso continuo en pintura epóxica gris cemento. Sin techo propio: arriba se insinúa
+la estructura metálica abierta de un galpón industrial con luz cenital suave. Paleta:
+grises cálidos, negro mate en la grifería, blanco cerámico. Sin personas, sin texto,
+sin marcas de agua.
+
+============================================================
+ELEVACIÓN G-G — PUERTAS DE CUBÍCULOS (vista frontal, de pie dentro del baño)
+============================================================
+Fotografía de arquitectura interior, encuadre completamente frontal (elevación
+técnica, cámara perpendicular, sin perspectiva), de tres cubículos de baño en fila,
+cada uno de 0,90 m de ancho, con tabiquería y puertas de fenólico gris oscuro casi
+negro, piso a techo hasta 1,80 m de altura, sin zócalo, con manijas cromadas
+discretas. Pared de fondo en microcemento gris claro, piso continuo en pintura
+epóxica gris cemento. Sin techo propio: arriba se insinúa la estructura metálica
+abierta de un galpón industrial con luz cenital suave. Paleta: grises cálidos, negro
+mate, acero cromado. Sin personas, sin texto, sin marcas de agua.
+
+============================================================
+Notas para Midjourney (si lo usas ahí)
+============================================================
+Agrega al final: --ar 16:9 --style raw --v 6

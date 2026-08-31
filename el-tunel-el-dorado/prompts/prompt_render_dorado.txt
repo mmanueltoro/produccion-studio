@@ -1,0 +1,62 @@
+PROMPT PARA RENDER — Módulo Sanitario "El Túnel" (minimalista industrial)
+Cómo usarlo: pega el bloque "PROMPT PRINCIPAL" en ChatGPT (pídele que genere una imagen),
+DALL-E, o Midjourney. Genera 2-3 variaciones y quédate con la que mejor cierre las
+proporciones. Nunca compartas tu API key en un chat: úsala solo dentro de tu propia cuenta.
+
+============================================================
+PROMPT PRINCIPAL (vista general de un módulo)
+============================================================
+Fotografía de arquitectura interior, render fotorrealista 8k, de un baño de hombres de
+estilo minimalista industrial. Local rectangular de 4,84 m de ancho x 5,00 m de fondo,
+altura de muro 2,80 m, sin techo propio (cielorraso abierto hacia una estructura de
+galpón con cerchas metálicas y luz cenital tenue).
+
+Materiales:
+- Piso continuo en pintura epóxica color gris cemento, acabado semi-mate, con una
+  rejilla de piso circular al centro y una leve pendiente hacia ella.
+- Paredes en microcemento gris claro, textura lisa y continua, sin juntas visibles.
+- Al fondo, tres cubículos de baño (pocetas) con tabiquería de fenólico gris oscuro
+  casi negro, piso a techo (1,80 m de alto), sin zócalo, con puertas del mismo material
+  y manijas cromadas discretas.
+- Contra la pared lateral (el tabique), cuatro urinarios de loza blanca suspendidos,
+  en fila, separados 0,75 m entre ejes, con tubería de fluxómetro cromada visible.
+- Contra la pared opuesta (muro exterior), un mesón corrido de concreto pulido gris
+  oscuro (2,40 m de largo) con tres lavamanos empotrados blancos, grifería negra mate,
+  y un frente descolgado del mismo concreto que oculta la tubería. Encima, un espejo
+  corrido de piso a techo parcial.
+- En la esquina libre junto al mesón, un banco bajo de concreto pulido o madera con
+  estructura metálica negra, de 1,60 x 0,45 m, para que el personal se cambie o se siente.
+- Puerta de acceso con cerradura, acabado negro mate, en la esquina opuesta al mesón.
+
+Iluminación: luz cenital suave y difusa (simulando lucernarios de galpón) combinada con
+un par de luminarias industriales colgantes de acabado negro. Sombras suaves, sin
+contraluces duros. Paleta de color: grises cálidos, negro mate, blanco cerámico, con
+un toque de acero cromado.
+
+Cámara: vista de tres cuartos desde la esquina de entrada, altura de ojo (1,60 m),
+lente angular moderado (24-28mm equivalente), líneas verticales rectas (sin distorsión
+de ojo de pez), encuadre que muestre en una sola toma: la fila de cubículos al fondo,
+los urinarios a un lado, y el mesón con espejo al otro lado.
+
+Estilo de referencia: fotografía de arquitectura tipo ArchDaily / Behance, minimalismo
+industrial, superficies limpias, sin desorden, sin personas, sin texto ni logos visibles.
+
+NEGATIVO / EVITAR: sin personas, sin texto, sin marcas de agua, sin distorsión de gran
+angular, sin muebles fuera de estilo (nada de madera clara ni colores cálidos vivos),
+sin iluminación cálida amarilla — mantener temperatura de luz neutra a fría.
+
+============================================================
+VARIANTE (detalle del mesón y lavamanos)
+============================================================
+Mismo estilo y materiales que el prompt principal, pero en primer plano: mesón de
+concreto pulido gris oscuro con tres lavamanos blancos empotrados y grifería negra
+mate, espejo corrido detrás, pared de microcemento gris claro, piso epóxico gris
+cemento. Composición horizontal, a la altura del mesón (0,80 m), foco nítido en la
+grifería y la textura del concreto pulido.
+
+============================================================
+Notas para Midjourney (si lo usas ahí)
+============================================================
+Agrega al final: --ar 16:9 --style raw --v 6
+Si quieres una versión más "foto de revista": agrega "editorial architecture photography"
+al inicio del prompt.

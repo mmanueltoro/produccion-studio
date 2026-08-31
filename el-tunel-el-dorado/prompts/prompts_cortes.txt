@@ -1,0 +1,43 @@
+PROMPTS POR CORTE — Módulo Sanitario "El Túnel"
+Pega cada bloque en ChatGPT (pídele que genere una imagen), DALL-E o Midjourney.
+Genera cada corte por separado — son dos ángulos distintos del mismo baño.
+
+============================================================
+CORTE A-A — TRANSVERSAL (a lo ancho, por urinarios y mesones)
+============================================================
+Fotografía de arquitectura interior, encuadre frontal y plano (como un alzado/corte
+técnico, cámara perfectamente perpendicular a la pared, sin perspectiva de tres cuartos),
+de un baño de hombres minimalista industrial visto de frente a lo ancho (9,83 m).
+
+En el centro, un tabique divisorio delgado de piso a techo que separa dos baños
+idénticos y espejados. A cada lado del tabique, cuatro urinarios de loza blanca
+suspendidos en fila contra el tabique, con tubería cromada visible, a una altura de
+0,35 a 0,97 m del piso. En cada extremo (muro exterior), un mesón de concreto pulido
+gris oscuro (altura de tope 0,80 m) con lavamanos empotrados blancos, grifería negra
+mate, y un espejo parcial de piso a techo encima. Paredes en microcemento gris claro,
+piso continuo en pintura epóxica gris cemento. Altura de muro 2,80 m, sin techo propio:
+arriba se insinúa la estructura metálica abierta de un galpón industrial con luz cenital
+suave. Sin distorsión de gran angular, líneas verticales perfectamente rectas, como una
+elevación arquitectónica fotografiada. Paleta: grises cálidos, negro mate, blanco
+cerámico, acero cromado. Sin personas, sin texto, sin marcas de agua, sin desorden.
+
+============================================================
+CORTE B-B — LONGITUDINAL (a lo largo, por cubículo y rejilla de piso)
+============================================================
+Fotografía de arquitectura interior, encuadre frontal y plano (alzado/corte técnico,
+cámara perpendicular, sin perspectiva de tres cuartos), de un baño de hombres
+minimalista industrial visto a lo largo (5,00 m de fondo).
+
+Al fondo, un cubículo de baño con tabiquería de fenólico gris oscuro casi negro, piso a
+techo hasta 1,80 m de altura, con puerta del mismo material y manija cromada discreta.
+El resto del encuadre es piso continuo en pintura epóxica gris cemento, con una leve
+pendiente hacia una rejilla circular de piso visible en el suelo. Paredes en microcemento
+gris claro a ambos lados, altura de muro 2,80 m, sin techo propio: arriba se insinúa la
+estructura metálica abierta de un galpón industrial con luz cenital suave. Sin distorsión
+de gran angular, líneas verticales perfectamente rectas. Paleta: grises cálidos, negro
+mate, blanco cerámico. Sin personas, sin texto, sin marcas de agua, sin desorden.
+
+============================================================
+Notas para Midjourney (si lo usas ahí)
+============================================================
+Agrega al final: --ar 16:9 --style raw --v 6

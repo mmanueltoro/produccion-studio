@@ -1,0 +1,567 @@
+<title>Módulo Sanitario El Túnel</title>
+<meta name="description" content="Plano de distribución del módulo sanitario — dos baños de hombres, izquierda y derecha, 9,83 × 5,00 m.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#FAF8F3; --surface:#FFFFFF; --floor:#F0EADE; --ink:#191D21;
+  --muted:#6B7178; --line:#DFD9CC; --wall:#39424A; --glass:#2F6F94;
+  --desk:#DAD3C5; --deskLn:#A79E8C; --rack:#C9857A; --cafebar:#C9A263;
+  --grid:#E6DFD0; --dim:#8C8578; --accent:#B44B38; --ok:#3F7A52;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131619; --surface:#1B1F23; --floor:#242A31; --ink:#E9E5DD;
+    --muted:#98A0A8; --line:#2E343A; --wall:#8B959E; --glass:#6FB4DC;
+    --desk:#333B45; --deskLn:#5A636E; --rack:#8C4E45; --cafebar:#8A6E3E;
+    --grid:#2A3037; --dim:#79828C; --accent:#E8836C; --ok:#6FB98A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131619; --surface:#1B1F23; --floor:#242A31; --ink:#E9E5DD;
+  --muted:#98A0A8; --line:#2E343A; --wall:#8B959E; --glass:#6FB4DC;
+  --desk:#333B45; --deskLn:#5A636E; --rack:#8C4E45; --cafebar:#8A6E3E;
+  --grid:#2A3037; --dim:#79828C; --accent:#E8836C; --ok:#6FB98A;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;
+  margin:0;padding:0 0 64px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px}
+h1{font-family:Archivo,sans-serif;font-weight:800;font-size:22px;letter-spacing:-.02em;margin:0}
+.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);font-weight:600}
+
+/* cajetín */
+.cajetin{border:1.5px solid var(--wall);border-radius:2px;margin-top:20px;
+  display:grid;grid-template-columns:repeat(5,1fr);overflow-x:auto}
+.cajetin div{padding:10px 14px;border-right:1px solid var(--line)}
+.cajetin div:last-child{border-right:none}
+.cajetin dt{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin:0}
+.cajetin dd{margin:4px 0 0;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:14px;font-weight:600}
+
+/* veredicto */
+.veredicto{margin-top:24px;background:color-mix(in srgb,var(--ok) 8%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--ok) 35%,var(--line));border-radius:8px;padding:16px 18px}
+.veredicto .tit{font-family:Archivo,sans-serif;font-weight:700;font-size:14px;color:var(--ok);margin:0 0 6px}
+.veredicto p{margin:0 0 6px;font-size:13.5px;line-height:1.6;color:var(--ink)}
+.veredicto p:last-child{margin-bottom:0}
+
+/* plano */
+.panel{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.panel h2{font-family:Archivo,sans-serif;font-size:15px;font-weight:700;margin:0 0 12px}
+.planowrap{overflow-x:auto}
+.plano{display:block;width:100%;min-width:640px;height:auto}
+.plano .zl{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.plano .zs{font-family:"IBM Plex Sans",sans-serif;font-size:9px;font-weight:500;opacity:.9}
+.plano .za{font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:500;opacity:.8}
+.plano .mb{font-family:"IBM Plex Mono",monospace;font-size:8px;fill:var(--muted);letter-spacing:.06em}
+.plano .ct{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--dim);letter-spacing:.04em}
+
+.leyenda{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:11.5px;color:var(--muted)}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid var(--deskLn)}
+
+/* tablas */
+table.comp{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+table.comp th,table.comp td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.comp th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);font-weight:600}
+table.comp td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  text-align:right}
+table.comp tr.tot td{font-weight:700;border-top:1.5px solid var(--wall);border-bottom:none}
+
+/* normativa */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.norma{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper)}
+.norma .eyebrow{display:block;margin-bottom:6px}
+.norma p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink)}
+
+.cortebloque{margin-bottom:24px}
+.cortebloque:last-child{margin-bottom:0}
+.cortebloque .planowrap{margin-bottom:10px}
+
+/* prompt IA */
+.notaprompt{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0 0 14px}
+.promptbox{margin-bottom:14px}
+.promptbox:last-child{margin-bottom:0}
+.promptlabel{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:6px}
+.promptbox pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.6;
+  color:var(--ink);white-space:pre-wrap;word-wrap:break-word;margin:0;overflow-x:auto}
+
+/* acabados */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.sw-card{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--paper);
+  display:flex;flex-direction:column;gap:6px}
+.sw-card i{display:block;width:100%;height:28px;border-radius:5px;border:1px solid var(--line)}
+.sw-card b{font-family:Archivo,sans-serif;font-size:12.5px;font-weight:700}
+.sw-card span{font-size:11.5px;color:var(--muted)}
+
+/* pendientes */
+.pend{border:1px solid var(--accent);border-radius:8px;padding:14px 16px;margin-top:28px}
+.pend h2{font-family:Archivo,sans-serif;font-size:14px;font-weight:700;margin:0 0 10px;color:var(--accent)}
+.pend ol{margin:0;padding-left:20px;font-size:13px;line-height:1.7}
+
+footer{margin-top:28px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--dim);
+  border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Plano técnico de distribución</div>
+  <h1>Módulo sanitario — Proyecto El Túnel</h1>
+  <div class="sub">Dos baños de hombres, izquierda y derecha, separados por tabique central · Local existente 9,83 × 5,00 m</div>
+
+  <div class="cajetin">
+    <div><dt>Ancho libre</dt><dd>9,83 m</dd></div>
+    <div><dt>Fondo</dt><dd>5,00 m</dd></div>
+    <div><dt>Área bruta</dt><dd>49,15 m²</dd></div>
+    <div><dt>Por módulo</dt><dd>4,84 × 5,00 m</dd></div>
+    <div><dt>Tabique</dt><dd>0,15 m</dd></div>
+  </div>
+
+  <div class="veredicto">
+    <p class="tit">✓ El programa cabe — verificado por cálculo (shapely), no a ojo</p>
+    <p><strong>20 piezas sanitarias</strong> en total: 6 pocetas (0,90 × 1,50 m c/u) + 8 urinarios + 6 lavamanos —
+    3 pocetas + 4 urinarios + 3 lavamanos por lado, idéntico y espejado entre el baño A (izquierda) y el B (derecha).</p>
+    <p>Cada módulo mide 4,84 × 5,00 m = 24,20 m² brutos. La fila de cubículos ocupa 2,70 m de los 4,84 m de ancho
+    contra el fondo; los 4 urinarios corren 3,00 m contra el paño del tabique, en una banda de profundidad distinta
+    a la de los cubículos, así que no compiten por el mismo espacio. El mesón de lavamanos va contra el muro exterior.</p>
+    <p>Ninguna pieza se sale del contorno ni se solapa con otra: las 13 zonas del plano (tabique + 6 piezas × 2 lados
+    + 2 puertas) se comprobaron una por una contra el polígono del local.</p>
+    <p>Los dos accesos quedan en extremos opuestos del frente: la puerta A en la esquina izquierda (junto al mesón
+    de lavamanos, lado exterior) y la puerta B en la esquina derecha (también junto a su mesón), lo más separadas
+    posible en vez de compartir el centro junto al tabique.</p>
+    <p>La fila de cubículos ahora queda pegada al tabique (antes dejaba un sobrante muerto de 0,20 m junto a esa
+    pared) — eso hace más directo el acceso a A3 y B1, los cubículos contiguos al tabique. El corrimiento libera
+    0,20 m más en la esquina del fondo junto al muro exterior, donde entra un banco de sillas de 1,60 × 0,45 m
+    por lado, para que el personal se cambie o se siente.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Planta a escala</h2>
+    <div class="planowrap">
+<svg viewBox="0 0 741 432" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planta módulo sanitario El Túnel — 9,83 x 5,00 m, dos baños de hombres" class="plano">
+<defs><pattern id="hx" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--wall)" stroke-width="2.2"/></pattern></defs>
+<polygon points="56.0,56.0 685.1,56.0 685.1,376.0 56.0,376.0" fill="var(--floor)"/>
+<rect x="193.0" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="193.0" y1="56.0" x2="193.0" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="250.6" y1="56.0" x2="250.6" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="203.9" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="221.8" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="193.0" y1="152.0" x2="244.8" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 193.0 152.0 A 51.8 51.8 0 0 1 193.0 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="193.0" y1="152.0" x2="193.0" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="221.8" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">A1</text>
+<rect x="250.6" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="250.6" y1="56.0" x2="250.6" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="308.2" y1="56.0" x2="308.2" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="261.5" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="279.4" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="250.6" y1="152.0" x2="302.4" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 250.6 152.0 A 51.8 51.8 0 0 1 250.6 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="250.6" y1="152.0" x2="250.6" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="279.4" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">A2</text>
+<rect x="308.2" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="308.2" y1="56.0" x2="308.2" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="365.8" y1="56.0" x2="365.8" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="319.1" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="337.0" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="308.2" y1="152.0" x2="360.0" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 308.2 152.0 A 51.8 51.8 0 0 1 308.2 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="308.2" y1="152.0" x2="308.2" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="337.0" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">A3</text>
+<rect x="343.4" y="164.8" width="22.4" height="192.0" fill="var(--desk)" fill-opacity="0.9" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="355.7" cy="188.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="343.4" y1="187.5" x2="343.4" y2="190.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="355.7" cy="236.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="343.4" y1="235.5" x2="343.4" y2="238.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="355.7" cy="284.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="343.4" y1="283.5" x2="343.4" y2="286.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="355.7" cy="332.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="343.4" y1="331.5" x2="343.4" y2="334.1" stroke="var(--wall)" stroke-width="3"/>
+<rect x="56.0" y="139.2" width="35.2" height="153.6" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="73.6" cy="164.8" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="73.6" cy="216.0" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="73.6" cy="267.2" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="54.7" y1="139.2" x2="54.7" y2="292.8" stroke="var(--glass)" stroke-width="3"/>
+<rect x="68.8" y="56.0" width="102.4" height="28.8" fill="var(--cafebar)" fill-opacity="0.55" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="81.6" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="107.2" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="132.8" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="158.4" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<text x="120.0" y="95.8" text-anchor="middle" class="mb" fill="var(--muted)">BANCO</text>
+<line x1="68.8" y1="376.0" x2="126.4" y2="376.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 68.8 376.0 A 57.6 57.6 0 0 1 68.8 318.4" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="68.8" y1="376.0" x2="68.8" y2="318.4" stroke="var(--ink)" stroke-width="2.2"/>
+<rect x="375.4" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="375.4" y1="56.0" x2="375.4" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="433.0" y1="56.0" x2="433.0" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="386.3" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="404.2" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="375.4" y1="152.0" x2="427.2" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 375.4 152.0 A 51.8 51.8 0 0 1 375.4 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="375.4" y1="152.0" x2="375.4" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="404.2" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">B1</text>
+<rect x="433.0" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="433.0" y1="56.0" x2="433.0" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="490.6" y1="56.0" x2="490.6" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="443.9" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="461.8" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="433.0" y1="152.0" x2="484.8" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 433.0 152.0 A 51.8 51.8 0 0 1 433.0 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="433.0" y1="152.0" x2="433.0" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="461.8" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">B2</text>
+<rect x="490.6" y="56.0" width="57.6" height="96.0" fill="none" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<line x1="490.6" y1="56.0" x2="490.6" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<line x1="548.2" y1="56.0" x2="548.2" y2="152.0" stroke="var(--deskLn)" stroke-width="1"/>
+<rect x="501.5" y="73.3" width="35.7" height="10.4" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="519.4" cy="102.7" r="10.7" fill="var(--desk)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="490.6" y1="152.0" x2="542.4" y2="152.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 490.6 152.0 A 51.8 51.8 0 0 1 490.6 100.2" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="490.6" y1="152.0" x2="490.6" y2="100.2" stroke="var(--ink)" stroke-width="2.2"/>
+<text x="519.4" y="64.6" text-anchor="middle" class="mb" fill="var(--muted)">B3</text>
+<rect x="375.4" y="164.8" width="22.4" height="192.0" fill="var(--desk)" fill-opacity="0.9" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="387.7" cy="188.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="375.4" y1="187.5" x2="375.4" y2="190.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="387.7" cy="236.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="375.4" y1="235.5" x2="375.4" y2="238.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="387.7" cy="284.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="375.4" y1="283.5" x2="375.4" y2="286.1" stroke="var(--wall)" stroke-width="3"/>
+<circle cx="387.7" cy="332.8" r="7.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="375.4" y1="331.5" x2="375.4" y2="334.1" stroke="var(--wall)" stroke-width="3"/>
+<rect x="649.9" y="139.2" width="35.2" height="153.6" fill="var(--desk)" fill-opacity="1" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="667.5" cy="164.8" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="667.5" cy="216.0" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="667.5" cy="267.2" r="10.6" fill="var(--surface)" stroke="var(--deskLn)" stroke-width="1.2"/>
+<line x1="686.4" y1="139.2" x2="686.4" y2="292.8" stroke="var(--glass)" stroke-width="3"/>
+<rect x="569.9" y="56.0" width="102.4" height="28.8" fill="var(--cafebar)" fill-opacity="0.55" stroke="var(--deskLn)" stroke-width="1.4" />
+<circle cx="582.7" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="608.3" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="633.9" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<circle cx="659.5" cy="70.4" r="8.7" fill="none" stroke="var(--deskLn)" stroke-width="1.2"/>
+<text x="621.1" y="95.8" text-anchor="middle" class="mb" fill="var(--muted)">BANCO</text>
+<line x1="614.7" y1="376.0" x2="672.3" y2="376.0" stroke="var(--floor)" stroke-width="6"/>
+<path d="M 672.3 376.0 A 57.6 57.6 0 0 0 672.3 318.4" fill="none" stroke="var(--ink)" stroke-width="1.3" stroke-dasharray="4 3"/>
+<line x1="672.3" y1="376.0" x2="672.3" y2="318.4" stroke="var(--ink)" stroke-width="2.2"/>
+<circle cx="279.4" cy="366.4" r="5.8" fill="none" stroke="var(--accent)" stroke-width="1.4"/>
+<circle cx="461.8" cy="366.4" r="5.8" fill="none" stroke="var(--accent)" stroke-width="1.4"/>
+<rect x="365.8" y="56.0" width="9.6" height="320.0" fill="var(--wall)" fill-opacity="1" />
+<polygon points="56.0,56.0 685.1,56.0 685.1,376.0 56.0,376.0" fill="none" stroke="var(--wall)" stroke-width="5" stroke-linejoin="miter" pointer-events="none"/>
+<line x1="56.0" y1="22.0" x2="685.1" y2="22.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="370.6" y="16.0" text-anchor="middle" class="ct">9,83 m — ancho libre entre muros</text>
+<line x1="56.0" y1="38.0" x2="365.8" y2="38.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="210.9" y="32.0" text-anchor="middle" class="ct">4,84 m</text>
+<line x1="375.4" y1="38.0" x2="685.1" y2="38.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="530.2" y="32.0" text-anchor="middle" class="ct">4,84 m</text>
+<line x1="30.0" y1="56.0" x2="30.0" y2="376.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="30.0" y="210.0" text-anchor="middle" class="ct" transform="rotate(-90 30.0 216.0)">5,00 m — fondo</text>
+<line x1="365.8" y1="394.0" x2="375.4" y2="394.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="370.6" y="388.0" text-anchor="middle" class="ct">0,15</text>
+<line x1="193.0" y1="168.0" x2="365.8" y2="168.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="279.4" y="162.0" text-anchor="middle" class="ct">3 × 0,90 = 2,70 m</text>
+<line x1="375.4" y1="168.0" x2="548.2" y2="168.0" stroke="var(--dim)" stroke-width="1"/>
+<text x="461.8" y="162.0" text-anchor="middle" class="ct">3 × 0,90 = 2,70 m</text>
+<line x1="333.4" y1="164.8" x2="333.4" y2="356.8" stroke="var(--dim)" stroke-width="1"/>
+<text x="333.4" y="254.8" text-anchor="middle" class="ct" transform="rotate(-90 333.4 260.8)">4 × 0,75 = 3,00 m</text>
+<line x1="407.8" y1="164.8" x2="407.8" y2="356.8" stroke="var(--dim)" stroke-width="1"/>
+<text x="407.8" y="254.8" text-anchor="middle" class="ct" transform="rotate(-90 407.8 260.8)">4 × 0,75 = 3,00 m</text>
+<text x="210.9" y="341.2" text-anchor="middle" class="zl" fill="var(--ink)">BAÑO DE HOMBRES A</text>
+<text x="530.2" y="341.2" text-anchor="middle" class="zl" fill="var(--ink)">BAÑO DE HOMBRES B</text>
+</svg>
+    </div>
+    <div class="leyenda">
+      <span><i class="sw" style="background:var(--desk)"></i> Cubículo / mesón / urinario</span>
+      <span><i class="sw" style="background:var(--wall)"></i> Muro / tabique</span>
+      <span><i class="sw" style="background:var(--glass)"></i> Espejo corrido</span>
+      <span><i class="sw" style="background:none;border-color:var(--accent)"></i> Rejilla de piso</span>
+      <span><i class="sw" style="background:var(--cafebar)"></i> Banco de sillas</span>
+      <span>┄ Barrido de puerta</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Cómputo de piezas — verificado</h2>
+    <table class="comp">
+      <thead><tr><th>Elemento</th><th>Baño A (izq.)</th><th>Baño B (der.)</th><th class="num">Total</th></tr></thead>
+      <tbody>
+        <tr><td>Pocetas (cubículo 0,90 × 1,50 m)</td><td class="num">3</td><td class="num">3</td><td class="num">6</td></tr>
+        <tr><td>Urinarios (a 0,75 m a eje, 3,00 m corrido)</td><td class="num">4</td><td class="num">4</td><td class="num">8</td></tr>
+        <tr><td>Lavamanos (mesón corrido 2,40 m)</td><td class="num">3</td><td class="num">3</td><td class="num">6</td></tr>
+        <tr><td>Espejo corrido</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+        <tr><td>Banco de sillas (1,60 × 0,45 m)</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+        <tr><td>Puerta con llave</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+        <tr class="tot"><td>Total piezas sanitarias</td><td class="num">10</td><td class="num">10</td><td class="num">20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Requisitos que condicionan la planta</h2>
+    <div class="grid3">
+      <div class="norma"><span class="eyebrow">Descarga</span>
+        <p>Piso con pendiente hacia rejilla central por módulo, salida de aguas negras hacia la cloaca
+        existente por el frente. Acometida de aguas blancas también por el frente.</p></div>
+      <div class="norma"><span class="eyebrow">Obra civil</span>
+        <p>Muros laterales y trasero ya existen (bloque frisado); solo se construye la pared del frente,
+        a 2,80 m de altura, sin techo propio — el módulo queda abierto hacia la cubierta del galpón.</p></div>
+      <div class="norma"><span class="eyebrow">Separación de piezas</span>
+        <p>Urinarios a 0,75 m a eje entre sí; lavamanos a 0,80 m a eje. Cubículos de 0,90 m de ancho libre
+        con tabiquería fenólica piso a techo, sin zócalo.</p></div>
+      <div class="norma"><span class="eyebrow">Fuera de alcance</span>
+        <p>No incluye cubículo accesible para personas con discapacidad — no entra dentro de los 4,84 m
+        de ancho por módulo sin sacrificar una poceta.</p></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Acabados — minimalista industrial</h2>
+    <div class="swatches">
+      <div class="sw-card"><i style="background:#8C8B85"></i><b>Piso</b><span>Pintura epóxica gris cemento</span></div>
+      <div class="sw-card"><i style="background:#B7B4AC"></i><b>Paredes</b><span>Microcemento gris claro</span></div>
+      <div class="sw-card"><i style="background:#4A4A48"></i><b>Mesón</b><span>Concreto pulido gris oscuro</span></div>
+      <div class="sw-card"><i style="background:#17181A"></i><b>Herrajes / grifería</b><span>Acero inox. y negro mate</span></div>
+    </div>
+    <div class="grid3" style="margin-top:16px">
+      <div class="norma"><span class="eyebrow">Piso</span>
+        <p>Pintura epóxica industrial (imprimante + 2 manos) sobre la losa existente, con pendiente 1,5–2 %
+        hacia la rejilla de cada módulo. Franja antideslizante en la zona húmeda, junto a pocetas y urinarios.
+        Área neta a pintar: 48,40 m² (49,15 m² brutos menos la base del tabique).</p></div>
+      <div class="norma"><span class="eyebrow">Paredes</span>
+        <p>Microcemento gris claro aplicado sobre el bloque frisado existente (3 caras) y sobre el tabique
+        (2 caras) y la pared frontal nueva — reemplaza los paneles de PVC del levantamiento previo. Base +
+        2 capas de microcemento + sellador hidrofugante. Área neta: ≈ 107,3 m² (descontando los 2 vanos de puerta).</p></div>
+      <div class="norma"><span class="eyebrow">Mesón</span>
+        <p>Tope de concreto pulido gris oscuro (no mampostería con tope, como en el levantamiento previo),
+        con hidrofugante para zona húmeda. Frente descolgado que oculta sifones, mismo acabado.
+        2,64 m² de superficie + 1,44 m² de frente = 4,08 m² por los dos mesones.</p></div>
+      <div class="norma"><span class="eyebrow">Coherencia del estilo</span>
+        <p>Cubículos en fenólico gris oscuro liso (sin estampado) con herrajes de acero inoxidable a la vista;
+        grifería y puertas en negro mate. El banco de cada esquina en concreto pulido o perfil metálico + madera
+        tratada, a juego con el mesón.</p></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Lista de materiales</h2>
+    <table class="comp">
+      <thead><tr><th>Categoría</th><th>Material / producto</th><th class="num">Cantidad</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr><td>Piso</td><td>Pintura epóxica gris cemento + imprimante</td><td class="num">48,40 m²</td><td>2 manos, antideslizante en zona húmeda</td></tr>
+        <tr><td>Piso</td><td>Rejilla de piso + sifón</td><td class="num">2 un</td><td>Una por módulo, pendiente 1,5–2 %</td></tr>
+        <tr><td>Paredes</td><td>Kit microcemento (base + microcemento + sellador)</td><td class="num">≈ 107,3 m²</td><td>3 caras existentes + tabique (2 caras) + frente nuevo</td></tr>
+        <tr><td>Tabiquería</td><td>Panel fenólico HPL 12–13 mm + herrajes inox.</td><td class="num">6 cubículos</td><td>Piso a techo, sin zócalo</td></tr>
+        <tr><td>Tabiquería</td><td>Puerta de cubículo fenólico 0,90 × 1,80 m</td><td class="num">6 un</td><td>Con pestillo y tope</td></tr>
+        <tr><td>Mesón</td><td>Concreto pulido + hidrofugante</td><td class="num">4,08 m²</td><td>2,64 m² tope + 1,44 m² frente descolgado</td></tr>
+        <tr><td>Sanitarios</td><td>Poceta (sanitario) loza blanca</td><td class="num">6 un</td><td>Cubículo 0,90 × 1,50 m</td></tr>
+        <tr><td>Sanitarios</td><td>Urinario suspendido loza blanca</td><td class="num">8 un</td><td>Separación 0,75 m a eje</td></tr>
+        <tr><td>Sanitarios</td><td>Lavamanos empotrado loza blanca</td><td class="num">6 un</td><td>Separación 0,80 m a eje</td></tr>
+        <tr><td>Grifería</td><td>Llave de lavamanos, negro mate</td><td class="num">6 un</td><td></td></tr>
+        <tr><td>Grifería</td><td>Fluxómetro / válvula de poceta</td><td class="num">6 un</td><td></td></tr>
+        <tr><td>Grifería</td><td>Válvula de urinario</td><td class="num">8 un</td><td></td></tr>
+        <tr><td>Espejos</td><td>Espejo corrido 4 mm, 2,40 m</td><td class="num">2 un</td><td>Uno por mesón</td></tr>
+        <tr><td>Mobiliario</td><td>Banco 1,60 × 0,45 m, concreto pulido o metal + madera</td><td class="num">2 un</td><td>Esquina liberada de cada módulo</td></tr>
+        <tr><td>Puertas de acceso</td><td>Puerta con cerradura, acabado negro mate</td><td class="num">2 un</td><td>Una por módulo</td></tr>
+        <tr><td>Accesorios</td><td>Dispensador de papel, jabón, basurero</td><td class="num">a definir</td><td>Cantidad pendiente de confirmar</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Prompt para render con IA (ChatGPT / DALL-E / Midjourney)</h2>
+    <p class="notaprompt">El render 3D fotorrealista no se puede generar en este entorno (Blender está bloqueado
+    por política de red) y una ilustración dibujada a mano no alcanza el nivel de una foto de arquitectura.
+    Este prompt sí lo puedes usar tú mismo, en tu propia cuenta — nunca compartas tu API key en un chat.</p>
+    <div class="promptbox">
+      <div class="promptlabel">Prompt principal — vista general</div>
+      <pre>Fotografía de arquitectura interior, render fotorrealista 8k, de un baño de hombres de
+estilo minimalista industrial. Local rectangular de 4,84 m de ancho x 5,00 m de fondo,
+altura de muro 2,80 m, sin techo propio (cielorraso abierto hacia una estructura de
+galpón con cerchas metálicas y luz cenital tenue).
+
+Materiales:
+- Piso continuo en pintura epóxica color gris cemento, acabado semi-mate, con una
+  rejilla de piso circular al centro y una leve pendiente hacia ella.
+- Paredes en microcemento gris claro, textura lisa y continua, sin juntas visibles.
+- Al fondo, tres cubículos de baño (pocetas) con tabiquería de fenólico gris oscuro
+  casi negro, piso a techo (1,80 m de alto), sin zócalo, con puertas del mismo material
+  y manijas cromadas discretas.
+- Contra la pared lateral (el tabique), cuatro urinarios de loza blanca suspendidos,
+  en fila, separados 0,75 m entre ejes, con tubería de fluxómetro cromada visible.
+- Contra la pared opuesta (muro exterior), un mesón corrido de concreto pulido gris
+  oscuro (2,40 m de largo) con tres lavamanos empotrados blancos, grifería negra mate,
+  y un frente descolgado del mismo concreto que oculta la tubería. Encima, un espejo
+  corrido de piso a techo parcial.
+- En la esquina libre junto al mesón, un banco bajo de concreto pulido o madera con
+  estructura metálica negra, de 1,60 x 0,45 m, para que el personal se cambie o se siente.
+- Puerta de acceso con cerradura, acabado negro mate, en la esquina opuesta al mesón.
+
+Iluminación: luz cenital suave y difusa (simulando lucernarios de galpón) combinada con
+un par de luminarias industriales colgantes de acabado negro. Sombras suaves, sin
+contraluces duros. Paleta de color: grises cálidos, negro mate, blanco cerámico, con
+un toque de acero cromado.
+
+Cámara: vista de tres cuartos desde la esquina de entrada, altura de ojo (1,60 m),
+lente angular moderado (24-28mm equivalente), líneas verticales rectas (sin distorsión
+de ojo de pez), encuadre que muestre en una sola toma: la fila de cubículos al fondo,
+los urinarios a un lado, y el mesón con espejo al otro lado.
+
+Estilo de referencia: fotografía de arquitectura tipo ArchDaily / Behance, minimalismo
+industrial, superficies limpias, sin desorden, sin personas, sin texto ni logos visibles.
+
+NEGATIVO / EVITAR: sin personas, sin texto, sin marcas de agua, sin distorsión de gran
+angular, sin muebles fuera de estilo (nada de madera clara ni colores cálidos vivos),
+sin iluminación cálida amarilla — mantener temperatura de luz neutra a fría.</pre>
+    </div>
+    <div class="promptbox">
+      <div class="promptlabel">Variante — detalle del mesón</div>
+      <pre>Mismo estilo y materiales que el prompt principal, pero en primer plano: mesón de
+concreto pulido gris oscuro con tres lavamanos blancos empotrados y grifería negra
+mate, espejo corrido detrás, pared de microcemento gris claro, piso epóxico gris
+cemento. Composición horizontal, a la altura del mesón (0,80 m), foco nítido en la
+grifería y la textura del concreto pulido.</pre>
+    </div>
+    <div class="promptbox">
+      <div class="promptlabel">Si usas Midjourney</div>
+      <pre>Agrega al final: --ar 16:9 --style raw --v 6
+Si quieres una versión más &quot;foto de revista&quot;: agrega &quot;editorial architecture photography&quot;
+al inicio del prompt.</pre>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Cortes técnicos, con prompt para generar la imagen tú mismo</h2>
+    <p class="notaprompt">Cada corte trae su propio prompt — pégalo en ChatGPT (pídele que genere una imagen),
+    DALL-E o Midjourney desde tu cuenta. Nunca compartas tu API key en un chat.</p>
+
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 844 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte A-A transversal" class="plano"><rect x="56.0" y="302.4" width="693.1" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="56.0" y1="302.4" x2="749.1" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="78.4" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="88.0" y="253.8" width="35.2" height="19.2" fill="#585650" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="88.0" y="250.6" width="35.2" height="3.2" fill="#6b6862" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="88.0" y="184.0" width="1.3" height="60.8" fill="var(--glass)" fill-opacity="0.55" stroke="var(--wall)" stroke-width="1.4"/><rect x="375.4" y="240.3" width="22.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="397.8" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="407.4" y="240.3" width="22.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="681.9" y="253.8" width="35.2" height="19.2" fill="#585650" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="681.9" y="250.6" width="35.2" height="3.2" fill="#6b6862" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="715.8" y="184.0" width="1.3" height="60.8" fill="var(--glass)" fill-opacity="0.55" stroke="var(--wall)" stroke-width="1.4"/><rect x="717.1" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><line x1="78.4" y1="123.2" x2="726.7" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="78.4" y1="123.2" x2="89.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="97.6" y1="123.2" x2="109.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="116.8" y1="123.2" x2="128.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="136.0" y1="123.2" x2="147.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="155.2" y1="123.2" x2="166.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="174.4" y1="123.2" x2="185.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="193.6" y1="123.2" x2="205.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="212.8" y1="123.2" x2="224.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="232.0" y1="123.2" x2="243.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="251.2" y1="123.2" x2="262.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="270.4" y1="123.2" x2="281.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="289.6" y1="123.2" x2="301.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="308.8" y1="123.2" x2="320.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="328.0" y1="123.2" x2="339.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="347.2" y1="123.2" x2="358.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="366.4" y1="123.2" x2="377.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="385.6" y1="123.2" x2="397.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="404.8" y1="123.2" x2="416.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="424.0" y1="123.2" x2="435.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="443.2" y1="123.2" x2="454.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="462.4" y1="123.2" x2="473.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="481.6" y1="123.2" x2="493.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="500.8" y1="123.2" x2="512.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="520.0" y1="123.2" x2="531.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="539.2" y1="123.2" x2="550.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="558.4" y1="123.2" x2="569.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="577.6" y1="123.2" x2="589.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="596.8" y1="123.2" x2="608.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="616.0" y1="123.2" x2="627.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="635.2" y1="123.2" x2="646.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="654.4" y1="123.2" x2="665.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="673.6" y1="123.2" x2="685.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="692.8" y1="123.2" x2="704.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="712.0" y1="123.2" x2="723.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="66.2" y1="302.4" x2="66.2" y2="123.2" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="302.4" x2="69.4" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="123.2" x2="69.4" y2="123.2" stroke="var(--dim)" stroke-width="1"/><text x="74.2" y="212.8" class="ct" dominant-baseline="middle">2,80 muro</text><line x1="729.9" y1="273.0" x2="729.9" y2="250.6" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="273.0" x2="733.1" y2="273.0" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="250.6" x2="733.1" y2="250.6" stroke="var(--dim)" stroke-width="1"/><text x="737.9" y="261.8" class="ct" dominant-baseline="middle">0,80 mesón</text><line x1="729.9" y1="244.8" x2="729.9" y2="184.0" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="244.8" x2="733.1" y2="244.8" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="184.0" x2="733.1" y2="184.0" stroke="var(--dim)" stroke-width="1"/><text x="737.9" y="214.4" class="ct" dominant-baseline="middle">espejo</text><line x1="66.2" y1="280.0" x2="66.2" y2="240.3" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="280.0" x2="69.4" y2="280.0" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="240.3" x2="69.4" y2="240.3" stroke="var(--dim)" stroke-width="1"/><text x="74.2" y="260.2" class="ct" dominant-baseline="middle">0,62 urinario</text><line x1="88.0" y1="104.0" x2="717.1" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="88.0" y1="107.2" x2="88.0" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="717.1" y1="107.2" x2="717.1" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="402.6" y="98.0" text-anchor="middle" class="ct">9,83 m — ancho libre entre muros</text><text x="402.6" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO — ABIERTO A LA CUBIERTA DEL GALPÓN</text><text x="402.6" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">CORTE A-A — TRANSVERSAL, a y=3,00 m (por urinarios y mesones)</text><text x="105.9" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">MESÓN A</text><text x="386.9" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">URIN. A</text><text x="418.2" y="324.8" text-anchor="middle" class="mb" fill="var(--muted)">URIN. B</text><text x="699.2" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">MESÓN B</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Corte A-A (transversal)</div>
+        <pre>Fotografía de arquitectura interior, encuadre frontal y plano (como un alzado/corte
+técnico, cámara perfectamente perpendicular a la pared, sin perspectiva de tres cuartos),
+de un baño de hombres minimalista industrial visto de frente a lo ancho (9,83 m).
+
+En el centro, un tabique divisorio delgado de piso a techo que separa dos baños
+idénticos y espejados. A cada lado del tabique, cuatro urinarios de loza blanca
+suspendidos en fila contra el tabique, con tubería cromada visible, a una altura de
+0,35 a 0,97 m del piso. En cada extremo (muro exterior), un mesón de concreto pulido
+gris oscuro (altura de tope 0,80 m) con lavamanos empotrados blancos, grifería negra
+mate, y un espejo parcial de piso a techo encima. Paredes en microcemento gris claro,
+piso continuo en pintura epóxica gris cemento. Altura de muro 2,80 m, sin techo propio:
+arriba se insinúa la estructura metálica abierta de un galpón industrial con luz cenital
+suave. Sin distorsión de gran angular, líneas verticales perfectamente rectas, como una
+elevación arquitectónica fotografiada. Paleta: grises cálidos, negro mate, blanco
+cerámico, acero cromado. Sin personas, sin texto, sin marcas de agua, sin desorden.</pre>
+      </div>
+    </div>
+
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 598 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte B-B longitudinal" class="plano"><rect x="107.2" y="302.4" width="384.0" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="107.2" y1="302.4" x2="443.2" y2="302.4" stroke="var(--wall)" stroke-width="2"/><line x1="443.2" y1="302.4" x2="449.6" y2="304.0" stroke="var(--wall)" stroke-width="2"/><line x1="449.6" y1="304.0" x2="491.2" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="129.6" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="139.2" y="187.2" width="96.0" height="115.2" fill="var(--desk)" fill-opacity="0.35" stroke="var(--deskLn)" stroke-width="1.4"/><line x1="235.2" y1="302.4" x2="235.2" y2="187.2" stroke="var(--ink)" stroke-width="2.2"/><rect x="459.2" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><line x1="129.6" y1="123.2" x2="468.8" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="129.6" y1="123.2" x2="141.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="148.8" y1="123.2" x2="160.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="168.0" y1="123.2" x2="179.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="187.2" y1="123.2" x2="198.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="206.4" y1="123.2" x2="217.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="225.6" y1="123.2" x2="237.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="244.8" y1="123.2" x2="256.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="264.0" y1="123.2" x2="275.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="283.2" y1="123.2" x2="294.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="302.4" y1="123.2" x2="313.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="321.6" y1="123.2" x2="333.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="340.8" y1="123.2" x2="352.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="360.0" y1="123.2" x2="371.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="379.2" y1="123.2" x2="390.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="398.4" y1="123.2" x2="409.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="417.6" y1="123.2" x2="429.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="436.8" y1="123.2" x2="448.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="456.0" y1="123.2" x2="467.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="117.4" y1="302.4" x2="117.4" y2="123.2" stroke="var(--dim)" stroke-width="1"/><line x1="114.2" y1="302.4" x2="120.6" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="114.2" y1="123.2" x2="120.6" y2="123.2" stroke="var(--dim)" stroke-width="1"/><text x="125.4" y="212.8" class="ct" dominant-baseline="middle">2,80 muro</text><line x1="245.4" y1="302.4" x2="245.4" y2="187.2" stroke="var(--dim)" stroke-width="1"/><line x1="242.2" y1="302.4" x2="248.6" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="242.2" y1="187.2" x2="248.6" y2="187.2" stroke="var(--dim)" stroke-width="1"/><text x="253.4" y="244.8" class="ct" dominant-baseline="middle">1,80 partición</text><line x1="139.2" y1="104.0" x2="459.2" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="139.2" y1="107.2" x2="139.2" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="459.2" y1="107.2" x2="459.2" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="299.2" y="98.0" text-anchor="middle" class="ct">5,00 m — fondo</text><text x="299.2" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO — ABIERTO A LA CUBIERTA DEL GALPÓN</text><text x="299.2" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">CORTE B-B — LONGITUDINAL (cubículo + rejilla)</text><text x="187.2" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">CUBÍCULO · FENÓLICO</text><text x="449.6" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">REJILLA · pendiente 1,5–2 %</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Corte B-B (longitudinal)</div>
+        <pre>Fotografía de arquitectura interior, encuadre frontal y plano (alzado/corte técnico,
+cámara perpendicular, sin perspectiva de tres cuartos), de un baño de hombres
+minimalista industrial visto a lo largo (5,00 m de fondo).
+
+Al fondo, un cubículo de baño con tabiquería de fenólico gris oscuro casi negro, piso a
+techo hasta 1,80 m de altura, con puerta del mismo material y manija cromada discreta.
+El resto del encuadre es piso continuo en pintura epóxica gris cemento, con una leve
+pendiente hacia una rejilla circular de piso visible en el suelo. Paredes en microcemento
+gris claro a ambos lados, altura de muro 2,80 m, sin techo propio: arriba se insinúa la
+estructura metálica abierta de un galpón industrial con luz cenital suave. Sin distorsión
+de gran angular, líneas verticales perfectamente rectas. Paleta: grises cálidos, negro
+mate, blanco cerámico. Sin personas, sin texto, sin marcas de agua, sin desorden.</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Más cortes y elevaciones interiores, con prompt</h2>
+    <p class="notaprompt">Cortes estructurales adicionales y elevaciones (vista frontal de cada pared, de pie dentro del baño) — útiles para generar cada ángulo por separado.</p>
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 869 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte C-C transversal por cubículos" class="plano"><rect x="56.0" y="302.4" width="693.1" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="56.0" y1="302.4" x2="749.1" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="78.4" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="225.0" y="187.2" width="172.8" height="115.2" fill="var(--desk)" fill-opacity="0.35" stroke="var(--deskLn)" stroke-width="1.4"/><line x1="282.6" y1="302.4" x2="282.6" y2="187.2" stroke="var(--deskLn)" stroke-width="1"/><line x1="340.2" y1="302.4" x2="340.2" y2="187.2" stroke="var(--deskLn)" stroke-width="1"/><rect x="397.8" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="407.4" y="187.2" width="172.8" height="115.2" fill="var(--desk)" fill-opacity="0.35" stroke="var(--deskLn)" stroke-width="1.4"/><line x1="465.0" y1="302.4" x2="465.0" y2="187.2" stroke="var(--deskLn)" stroke-width="1"/><line x1="522.6" y1="302.4" x2="522.6" y2="187.2" stroke="var(--deskLn)" stroke-width="1"/><rect x="717.1" y="123.2" width="9.6" height="179.2" fill="var(--wall)" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><line x1="78.4" y1="123.2" x2="726.7" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="78.4" y1="123.2" x2="89.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="97.6" y1="123.2" x2="109.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="116.8" y1="123.2" x2="128.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="136.0" y1="123.2" x2="147.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="155.2" y1="123.2" x2="166.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="174.4" y1="123.2" x2="185.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="193.6" y1="123.2" x2="205.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="212.8" y1="123.2" x2="224.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="232.0" y1="123.2" x2="243.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="251.2" y1="123.2" x2="262.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="270.4" y1="123.2" x2="281.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="289.6" y1="123.2" x2="301.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="308.8" y1="123.2" x2="320.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="328.0" y1="123.2" x2="339.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="347.2" y1="123.2" x2="358.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="366.4" y1="123.2" x2="377.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="385.6" y1="123.2" x2="397.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="404.8" y1="123.2" x2="416.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="424.0" y1="123.2" x2="435.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="443.2" y1="123.2" x2="454.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="462.4" y1="123.2" x2="473.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="481.6" y1="123.2" x2="493.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="500.8" y1="123.2" x2="512.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="520.0" y1="123.2" x2="531.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="539.2" y1="123.2" x2="550.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="558.4" y1="123.2" x2="569.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="577.6" y1="123.2" x2="589.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="596.8" y1="123.2" x2="608.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="616.0" y1="123.2" x2="627.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="635.2" y1="123.2" x2="646.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="654.4" y1="123.2" x2="665.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="673.6" y1="123.2" x2="685.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="692.8" y1="123.2" x2="704.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="712.0" y1="123.2" x2="723.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="66.2" y1="302.4" x2="66.2" y2="123.2" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="302.4" x2="69.4" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="63.0" y1="123.2" x2="69.4" y2="123.2" stroke="var(--dim)" stroke-width="1"/><text x="74.2" y="212.8" class="ct" dominant-baseline="middle">2,80 muro</text><line x1="729.9" y1="302.4" x2="729.9" y2="187.2" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="302.4" x2="733.1" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="726.7" y1="187.2" x2="733.1" y2="187.2" stroke="var(--dim)" stroke-width="1"/><text x="737.9" y="244.8" class="ct" dominant-baseline="middle">1,80 partición</text><line x1="88.0" y1="104.0" x2="717.1" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="88.0" y1="107.2" x2="88.0" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="717.1" y1="107.2" x2="717.1" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="402.6" y="98.0" text-anchor="middle" class="ct">9,83 m — ancho libre entre muros</text><text x="402.6" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO — ABIERTO A LA CUBIERTA DEL GALPÓN</text><text x="402.6" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">CORTE C-C — TRANSVERSAL, a y=0,75 m (por cubículos)</text><text x="311.4" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">CUBÍCULOS A</text><text x="493.8" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">CUBÍCULOS B</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Corte C-C (transversal, por cubículos)</div>
+        <pre>Fotografía de arquitectura interior, encuadre frontal y plano (alzado/corte técnico,
+cámara perpendicular, sin perspectiva de tres cuartos), de un baño de hombres
+minimalista industrial visto de frente a lo ancho (9,83 m), cortando por la fila de
+cubículos de cada lado.
+
+En el centro, un tabique divisorio delgado de piso a techo (2,80 m). A cada lado, tres
+cubículos de baño con tabiquería de fenólico gris oscuro casi negro, de 1,80 m de
+altura, sin zócalo, dejando un pasillo lateral abierto hacia el muro exterior de cada
+módulo. Paredes en microcemento gris claro, piso continuo en pintura epóxica gris
+cemento. Sin techo propio: arriba se insinúa la estructura metálica abierta de un
+galpón industrial con luz cenital suave. Líneas verticales perfectamente rectas, sin
+distorsión de gran angular. Paleta: grises cálidos, negro mate, blanco cerámico. Sin
+personas, sin texto, sin marcas de agua, sin desorden.</pre>
+      </div>
+    </div>
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 560 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elevación interior pared de urinarios" class="plano"><rect x="56.0" y="302.4" width="448.0" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="56.0" y1="302.4" x2="504.0" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="56.0" y="123.2" width="448.0" height="179.2" fill="var(--wall)" fill-opacity="0.3" stroke="var(--wall)" stroke-width="1.4"/><rect x="188.8" y="240.3" width="38.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--ink)" stroke-width="1.6"/><line x1="208.0" y1="240.3" x2="208.0" y2="228.8" stroke="var(--dim)" stroke-width="1.4"/><rect x="236.8" y="240.3" width="38.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--ink)" stroke-width="1.6"/><line x1="256.0" y1="240.3" x2="256.0" y2="228.8" stroke="var(--dim)" stroke-width="1.4"/><rect x="284.8" y="240.3" width="38.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--ink)" stroke-width="1.6"/><line x1="304.0" y1="240.3" x2="304.0" y2="228.8" stroke="var(--dim)" stroke-width="1.4"/><rect x="332.8" y="240.3" width="38.4" height="39.7" fill="var(--desk)" fill-opacity="1" stroke="var(--ink)" stroke-width="1.6"/><line x1="352.0" y1="240.3" x2="352.0" y2="228.8" stroke="var(--dim)" stroke-width="1.4"/><line x1="56.0" y1="123.2" x2="504.0" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="56.0" y1="123.2" x2="67.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="75.2" y1="123.2" x2="86.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="94.4" y1="123.2" x2="105.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="113.6" y1="123.2" x2="125.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="132.8" y1="123.2" x2="144.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="152.0" y1="123.2" x2="163.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="171.2" y1="123.2" x2="182.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="190.4" y1="123.2" x2="201.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="209.6" y1="123.2" x2="221.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="228.8" y1="123.2" x2="240.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="248.0" y1="123.2" x2="259.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="267.2" y1="123.2" x2="278.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="286.4" y1="123.2" x2="297.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="305.6" y1="123.2" x2="317.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="324.8" y1="123.2" x2="336.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="344.0" y1="123.2" x2="355.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="363.2" y1="123.2" x2="374.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="382.4" y1="123.2" x2="393.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="401.6" y1="123.2" x2="413.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="420.8" y1="123.2" x2="432.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="440.0" y1="123.2" x2="451.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="459.2" y1="123.2" x2="470.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="478.4" y1="123.2" x2="489.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="497.6" y1="123.2" x2="504.0" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="157.1" y1="280.0" x2="157.1" y2="240.3" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="280.0" x2="160.3" y2="280.0" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="240.3" x2="160.3" y2="240.3" stroke="var(--dim)" stroke-width="1"/><text x="165.1" y="260.2" class="ct" dominant-baseline="middle">0,62</text><line x1="188.8" y1="104.0" x2="371.2" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="188.8" y1="107.2" x2="188.8" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="371.2" y1="107.2" x2="371.2" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="280.0" y="98.0" text-anchor="middle" class="ct">3,00 m — 4 urinarios a 0,75 m</text><text x="280.0" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO</text><text x="280.0" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">ELEVACIÓN E-E — PARED DE URINARIOS</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Elevación E-E (pared de urinarios)</div>
+        <pre>Fotografía de arquitectura interior, encuadre completamente frontal (como una
+elevación técnica, cámara perpendicular a la pared, sin ángulo ni perspectiva), de
+una pared de microcemento gris claro de 3 metros de largo por 2,80 m de alto, con
+cuatro urinarios de loza blanca suspendidos en fila, separados 0,75 m entre ejes,
+a una altura de 0,35 a 0,97 m del piso, con tubería de fluxómetro cromada visible
+sobre cada uno. Piso continuo en pintura epóxica gris cemento. Sin techo propio:
+arriba se insinúa la estructura metálica abierta de un galpón industrial con luz
+cenital suave. Paleta: grises cálidos, blanco cerámico, acero cromado. Sin personas,
+sin texto, sin marcas de agua.</pre>
+      </div>
+    </div>
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 522 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elevación interior pared del mesón" class="plano"><rect x="56.0" y="302.4" width="409.6" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="56.0" y1="302.4" x2="465.6" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="56.0" y="123.2" width="409.6" height="179.2" fill="var(--wall)" fill-opacity="0.3" stroke="var(--wall)" stroke-width="1.4"/><rect x="184.0" y="253.8" width="153.6" height="19.2" fill="#585650" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><rect x="184.0" y="250.6" width="153.6" height="3.2" fill="#6b6862" fill-opacity="1" stroke="var(--wall)" stroke-width="1.4"/><ellipse cx="209.6" cy="250.6" rx="14" ry="6" fill="var(--floor)" stroke="var(--ink)" stroke-width="1"/><ellipse cx="260.8" cy="250.6" rx="14" ry="6" fill="var(--floor)" stroke="var(--ink)" stroke-width="1"/><ellipse cx="312.0" cy="250.6" rx="14" ry="6" fill="var(--floor)" stroke="var(--ink)" stroke-width="1"/><rect x="187.8" y="184.0" width="145.9" height="60.8" fill="var(--glass)" fill-opacity="0.55" stroke="var(--wall)" stroke-width="1.4"/><line x1="56.0" y1="123.2" x2="465.6" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="56.0" y1="123.2" x2="67.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="75.2" y1="123.2" x2="86.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="94.4" y1="123.2" x2="105.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="113.6" y1="123.2" x2="125.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="132.8" y1="123.2" x2="144.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="152.0" y1="123.2" x2="163.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="171.2" y1="123.2" x2="182.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="190.4" y1="123.2" x2="201.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="209.6" y1="123.2" x2="221.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="228.8" y1="123.2" x2="240.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="248.0" y1="123.2" x2="259.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="267.2" y1="123.2" x2="278.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="286.4" y1="123.2" x2="297.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="305.6" y1="123.2" x2="317.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="324.8" y1="123.2" x2="336.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="344.0" y1="123.2" x2="355.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="363.2" y1="123.2" x2="374.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="382.4" y1="123.2" x2="393.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="401.6" y1="123.2" x2="413.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="420.8" y1="123.2" x2="432.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="440.0" y1="123.2" x2="451.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="459.2" y1="123.2" x2="465.6" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="157.1" y1="273.0" x2="157.1" y2="250.6" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="273.0" x2="160.3" y2="273.0" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="250.6" x2="160.3" y2="250.6" stroke="var(--dim)" stroke-width="1"/><text x="165.1" y="261.8" class="ct" dominant-baseline="middle">0,80 mesón</text><line x1="350.4" y1="244.8" x2="350.4" y2="184.0" stroke="var(--dim)" stroke-width="1"/><line x1="347.2" y1="244.8" x2="353.6" y2="244.8" stroke="var(--dim)" stroke-width="1"/><line x1="347.2" y1="184.0" x2="353.6" y2="184.0" stroke="var(--dim)" stroke-width="1"/><text x="358.4" y="214.4" class="ct" dominant-baseline="middle">espejo</text><line x1="184.0" y1="104.0" x2="337.6" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="184.0" y1="107.2" x2="184.0" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="337.6" y1="107.2" x2="337.6" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="260.8" y="98.0" text-anchor="middle" class="ct">2,40 m — 3 lavamanos a 0,80 m</text><text x="260.8" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO</text><text x="260.8" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">ELEVACIÓN F-F — PARED DEL MESÓN</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Elevación F-F (pared del mesón)</div>
+        <pre>Fotografía de arquitectura interior, encuadre completamente frontal (elevación
+técnica, cámara perpendicular, sin perspectiva), de una pared de microcemento gris
+claro con un mesón corrido de concreto pulido gris oscuro de 2,40 m de largo, altura
+de tope 0,80 m, con tres lavamanos blancos empotrados y un frente descolgado del
+mismo concreto que oculta la tubería. Encima, un espejo parcial de piso a techo.
+Piso continuo en pintura epóxica gris cemento. Sin techo propio: arriba se insinúa
+la estructura metálica abierta de un galpón industrial con luz cenital suave. Paleta:
+grises cálidos, negro mate en la grifería, blanco cerámico. Sin personas, sin texto,
+sin marcas de agua.</pre>
+      </div>
+    </div>
+    <div class="cortebloque">
+      <div class="planowrap"><svg viewBox="0 0 541 394" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elevación interior puertas de cubículos" class="plano"><rect x="56.0" y="302.4" width="428.8" height="3.2" fill="var(--floor)" fill-opacity="1" stroke="none" stroke-width="1.4"/><line x1="56.0" y1="302.4" x2="484.8" y2="302.4" stroke="var(--wall)" stroke-width="2"/><rect x="56.0" y="123.2" width="428.8" height="179.2" fill="var(--wall)" fill-opacity="0.14" stroke="var(--wall)" stroke-width="1.4"/><rect x="184.0" y="187.2" width="172.8" height="115.2" fill="var(--desk)" fill-opacity="0.7" stroke="var(--deskLn)" stroke-width="1.4"/><line x1="241.6" y1="302.4" x2="241.6" y2="187.2" stroke="var(--ink)" stroke-width="2"/><line x1="299.2" y1="302.4" x2="299.2" y2="187.2" stroke="var(--ink)" stroke-width="2"/><rect x="189.1" y="201.9" width="47.4" height="99.2" fill="var(--ink)" fill-opacity="0.88" stroke="none" stroke-width="1.4"/><text x="212.8" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">C1</text><rect x="246.7" y="201.9" width="47.4" height="99.2" fill="var(--ink)" fill-opacity="0.88" stroke="none" stroke-width="1.4"/><text x="270.4" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">C2</text><rect x="304.3" y="201.9" width="47.4" height="99.2" fill="var(--ink)" fill-opacity="0.88" stroke="none" stroke-width="1.4"/><text x="328.0" y="315.2" text-anchor="middle" class="mb" fill="var(--muted)">C3</text><line x1="56.0" y1="123.2" x2="484.8" y2="123.2" stroke="var(--wall)" stroke-width="2" stroke-dasharray="3 3"/><line x1="56.0" y1="123.2" x2="67.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="75.2" y1="123.2" x2="86.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="94.4" y1="123.2" x2="105.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="113.6" y1="123.2" x2="125.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="132.8" y1="123.2" x2="144.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="152.0" y1="123.2" x2="163.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="171.2" y1="123.2" x2="182.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="190.4" y1="123.2" x2="201.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="209.6" y1="123.2" x2="221.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="228.8" y1="123.2" x2="240.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="248.0" y1="123.2" x2="259.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="267.2" y1="123.2" x2="278.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="286.4" y1="123.2" x2="297.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="305.6" y1="123.2" x2="317.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="324.8" y1="123.2" x2="336.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="344.0" y1="123.2" x2="355.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="363.2" y1="123.2" x2="374.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="382.4" y1="123.2" x2="393.9" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="401.6" y1="123.2" x2="413.1" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="420.8" y1="123.2" x2="432.3" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="440.0" y1="123.2" x2="451.5" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="459.2" y1="123.2" x2="470.7" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="478.4" y1="123.2" x2="484.8" y2="104.0" stroke="var(--dim)" stroke-width="0.8"/><line x1="157.1" y1="302.4" x2="157.1" y2="187.2" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="302.4" x2="160.3" y2="302.4" stroke="var(--dim)" stroke-width="1"/><line x1="153.9" y1="187.2" x2="160.3" y2="187.2" stroke="var(--dim)" stroke-width="1"/><text x="165.1" y="244.8" class="ct" dominant-baseline="middle">1,80 partición</text><line x1="184.0" y1="104.0" x2="356.8" y2="104.0" stroke="var(--dim)" stroke-width="1"/><line x1="184.0" y1="107.2" x2="184.0" y2="100.8" stroke="var(--dim)" stroke-width="1"/><line x1="356.8" y1="107.2" x2="356.8" y2="100.8" stroke="var(--dim)" stroke-width="1"/><text x="270.4" y="98.0" text-anchor="middle" class="ct">2,70 m — 3 cubículos de 0,90 m</text><text x="270.4" y="83.5" text-anchor="middle" class="mb" fill="var(--muted)">SIN TECHO PROPIO</text><text x="270.4" y="64.3" text-anchor="middle" class="ct" fill="var(--ink)">ELEVACIÓN G-G — PUERTAS DE CUBÍCULOS</text></svg></div>
+      <div class="promptbox">
+        <div class="promptlabel">Prompt — Elevación G-G (puertas de cubículos)</div>
+        <pre>Fotografía de arquitectura interior, encuadre completamente frontal (elevación
+técnica, cámara perpendicular, sin perspectiva), de tres cubículos de baño en fila,
+cada uno de 0,90 m de ancho, con tabiquería y puertas de fenólico gris oscuro casi
+negro, piso a techo hasta 1,80 m de altura, sin zócalo, con manijas cromadas
+discretas. Pared de fondo en microcemento gris claro, piso continuo en pintura
+epóxica gris cemento. Sin techo propio: arriba se insinúa la estructura metálica
+abierta de un galpón industrial con luz cenital suave. Paleta: grises cálidos, negro
+mate, acero cromado. Sin personas, sin texto, sin marcas de agua.</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="pend">
+    <h2>Pendientes por confirmar</h2>
+    <ol>
+      <li><s>Ancho del local</s> — confirmado en 9,83 m, igual al levantamiento anterior (visor 360° "El Túnel").
+      Ya corregido en todo este plano y en el cómputo de materiales.</li>
+      <li>Definir si va tanque de agua elevado por baño con soporte aéreo en la estructura del techo del galpón
+      (el levantamiento previo detectó solo 2 vigas aprovechables de las 4 que harían falta).</li>
+      <li>Confirmar tono exacto de microcemento y RAL de la pintura de piso, y si aplica ventilación mecánica
+      dado que el módulo no tiene techo propio (afecta el secado del microcemento y del epóxico).</li>
+      <li>Definir cantidad de accesorios (dispensadores, basureros, ganchos) y si el banco lleva respaldo.</li>
+    </ol>
+  </div>
+
+  <footer>
+    Levantamiento: 9,83 × 5,00 m, tabique 0,15 m · Método de verificación: shapely (área por polígono +
+    comprobación de solapes) · Escala del dibujo: 64 px/m
+  </footer>
+</div>
