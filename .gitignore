@@ -1,0 +1,4 @@
+render/cielo.hdr
+render/salida/prueba_*.png
+__pycache__/
+*.pyc
