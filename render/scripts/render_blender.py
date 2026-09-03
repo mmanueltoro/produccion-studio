@@ -181,12 +181,12 @@ else:
     # Sin HDRI: cielo físico (Nishita) alineado con el sol de la escena. Da luz azulada
     # de cielo + horizonte cálido; mucho mejor que un color plano.
     sky = nt.nodes.new("ShaderNodeTexSky"); sky.sky_type = 'NISHITA'
-    sky.sun_elevation = math.radians(44); sky.sun_rotation = math.radians(-28)
+    sky.sun_elevation = math.radians(55); sky.sun_rotation = math.radians(150)
     sky.sun_intensity = 0.0          # el sol lo pone la lámpara SUN, no el cielo
     sky.altitude = 900               # Caracas, aprox.
-    sky.air_density = 1.0; sky.dust_density = 0.45
+    sky.air_density = 1.6; sky.dust_density = 0.05; sky.ozone_density = 4.0
     nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
-    bg.inputs[1].default_value = 0.045
+    bg.inputs[1].default_value = 0.07
     print("HDRI no encontrado: cielo procedural Nishita")
 
 def led(x0, x1, y, alto=2.58):

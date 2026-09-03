@@ -44,7 +44,8 @@ curl -sL -o render/cielo.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2
 ```
 
 **Tiempos medidos** (4 núcleos, bpy 4.2.23, cielo procedural): 1200×768 a 64 muestras
-con denoiser ≈ 30–40 s por vista. Escala casi lineal con píxeles y muestras.
+con denoiser ≈ 100 s por vista interior y 41 s la cenital; 500×320 a 16 muestras ≈ 7 s
+para iterar. Escala casi lineal con píxeles y muestras.
 
 ## Exportar a D5 / Twinmotion
 
@@ -64,3 +65,12 @@ conversión y permiten asignar materiales uno por uno del otro lado.
 
 Mobiliario empacado en área abierta: 4 módulos, **23 plazas**; ventanal libre 9.03 m en un
 solo tramo. La sala de reuniones suma 10 y la oficina privada 3.
+
+## Siguiente iteración (lo que más delata la escena hoy)
+
+1. **Cielo tras el ventanal**: con el cielo procedural se ve cálido y plano. Con el HDRI
+   real de Poly Haven se resuelve; aquí no se pudo descargar (bloqueado por la red).
+2. **Vidrio de la sala y de la pecera**: en la vista B se lee como espejo oscuro porque
+   la sala interior queda a oscuras; subir los LED de la sala o bajar la reflexión.
+3. **Puesto contra el ventanal**: el empacador colocó una mesa de 8 pegada al vidrio
+   (y=0); conviene excluir una franja de 0.60 m frente al antepecho.
