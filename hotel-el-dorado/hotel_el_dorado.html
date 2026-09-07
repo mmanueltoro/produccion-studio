@@ -1,0 +1,144 @@
+<title>Hotel El Dorado</title>
+<meta name="description" content="Ficha técnica del proyecto Hotel El Dorado — auto-hotel de permanencia corta, dos plantas, 24+ habitaciones.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#FAF8F3; --surface:#FFFFFF; --floor:#F0EADE; --ink:#191D21;
+  --muted:#6B7178; --line:#DFD9CC; --wall:#39424A; --glass:#2F6F94;
+  --desk:#DAD3C5; --deskLn:#A79E8C; --dim:#8C8578; --accent:#B44B38; --ok:#3F7A52;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131619; --surface:#1B1F23; --floor:#242A31; --ink:#E9E5DD;
+    --muted:#98A0A8; --line:#2E343A; --wall:#8B959E; --glass:#6FB4DC;
+    --desk:#333B45; --deskLn:#5A636E; --dim:#79828C; --accent:#E8836C; --ok:#6FB98A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131619; --surface:#1B1F23; --floor:#242A31; --ink:#E9E5DD;
+  --muted:#98A0A8; --line:#2E343A; --wall:#8B959E; --glass:#6FB4DC;
+  --desk:#333B45; --deskLn:#5A636E; --dim:#79828C; --accent:#E8836C; --ok:#6FB98A;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;margin:0;padding:0 0 64px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px}
+h1{font-family:Archivo,sans-serif;font-weight:800;font-size:22px;letter-spacing:-.02em;margin:0}
+.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+.cajetin{border:1.5px solid var(--wall);border-radius:2px;margin-top:20px;display:grid;grid-template-columns:repeat(5,1fr);overflow-x:auto}
+.cajetin div{padding:10px 14px;border-right:1px solid var(--line)}
+.cajetin div:last-child{border-right:none}
+.cajetin dt{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.cajetin dd{margin:4px 0 0;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600}
+
+.alerta{margin-top:24px;background:color-mix(in srgb,var(--accent) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:8px;padding:16px 18px}
+.alerta .tit{font-family:Archivo,sans-serif;font-weight:700;font-size:14px;color:var(--accent);margin:0 0 6px}
+.alerta p{margin:0 0 6px;font-size:13.5px;line-height:1.6;color:var(--ink)}
+.alerta p:last-child{margin-bottom:0}
+
+.panel{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.panel h2{font-family:Archivo,sans-serif;font-size:15px;font-weight:700;margin:0 0 12px}
+
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.norma{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--paper)}
+.norma .eyebrow{display:block;margin-bottom:6px}
+.norma p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink)}
+
+table.comp{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+table.comp th,table.comp td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.comp th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+table.comp td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+
+.pend{border:1px solid var(--accent);border-radius:8px;padding:14px 16px;margin-top:28px}
+.pend h2{font-family:Archivo,sans-serif;font-size:14px;font-weight:700;margin:0 0 10px;color:var(--accent)}
+.pend ol{margin:0;padding-left:20px;font-size:13px;line-height:1.7}
+
+.linkbox{border:1px dashed var(--deskLn);border-radius:8px;padding:12px 14px;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;word-break:break-all;background:var(--paper)}
+.linkbox a{color:var(--accent)}
+
+footer{margin-top:28px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--dim);border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Ficha técnica de proyecto</div>
+  <h1>Hotel El Dorado — permanencia corta</h1>
+  <div class="sub">Auto-hotel de dos plantas, 24+ habitaciones · terreno con levantamiento topográfico de GIGAR Inversiones, C.A.</div>
+
+  <div class="cajetin">
+    <div><dt>Ancho (plano topógrafo)</dt><dd>20 m</dd></div>
+    <div><dt>Fondo (plano topógrafo)</dt><dd>25 m</dd></div>
+    <div><dt>Área (plano topógrafo)</dt><dd>500 m²</dd></div>
+    <div><dt>Dato del cliente</dt><dd>60 × 120 m</dd></div>
+    <div><dt>Desnivel</dt><dd>≈ 0,5–0,8 m</dd></div>
+  </div>
+
+  <div class="alerta">
+    <p class="tit">⚠ Contradicción sin resolver — no se traza distribución final hasta aclarar esto</p>
+    <p>El plano del topógrafo mide <strong>20 × 25 m</strong> por coordenadas UTM (N742452–742472,
+    E650258–650283 ≈ 500 m²). El cliente indicó <strong>60 × 120 m</strong> (7.200 m²) — 14 veces más grande.</p>
+    <p><strong>Hipótesis de trabajo:</strong> 60×120 m sería el lote completo, y el rectángulo rojo del plano
+    (20×25 m) el "área de construcción" autorizada dentro de ese lote — pendiente de confirmación.
+    En 20×25 m, el módulo de habitación propuesto no alcanza las 24+ unidades (da 14–16 como máximo); en
+    60×120 m sí caben sobradamente.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Plano del topógrafo</h2>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 4px">Levantamiento recibido — GIGAR Inversiones, C.A. (Asesoría Minera).
+    Topografía Keilin R. · Dibujo Luis G. · Revisado Michelangelo C. · Aprobado pendiente.
+    Curvas de nivel de 139,1–139,2 (zona norte) a 139,6–139,9 (zona sur): el terreno sube levemente hacia el sur.</p>
+    <div class="linkbox">Archivo original: <a href="https://github.com/mmanueltoro/produccion-studio/blob/claude/proyectos-banos-dorado-9k2ply/hotel-el-dorado/topografia/PROYECTO_HOTEL_EL_DORADO_topografia.pdf">github.com/mmanueltoro/produccion-studio/.../hotel-el-dorado/topografia/PROYECTO_HOTEL_EL_DORADO_topografia.pdf</a></div>
+  </div>
+
+  <div class="panel">
+    <h2>Programa del hotel</h2>
+    <div class="grid3">
+      <div class="norma"><span class="eyebrow">Tipología</span>
+        <p>Auto-hotel de permanencia corta, dos plantas. Meta de <strong>24+ habitaciones</strong> a máxima densidad.</p></div>
+      <div class="norma"><span class="eyebrow">Unidad tipo</span>
+        <p>Garaje privado en planta baja (tamaño de un puesto de carro) + escalera privada interior + habitación
+        en planta alta sobre el mismo garaje.</p></div>
+      <div class="norma"><span class="eyebrow">Puerta de garaje</span>
+        <p>Estilo granero, con acabado de ladrillo decorativo.</p></div>
+      <div class="norma"><span class="eyebrow">Circulación de servicio</span>
+        <p>Pasillo central en planta baja, independiente del acceso del huésped — el personal de limpieza
+        llega a cada escalera sin pasar por el garaje.</p></div>
+      <div class="norma"><span class="eyebrow">Lavandería</span>
+        <p>Área con máquinas de lavado y bombas de agua.</p></div>
+      <div class="norma"><span class="eyebrow">Internet</span>
+        <p>Servicio de conectividad para todas las habitaciones.</p></div>
+      <div class="norma"><span class="eyebrow">Estructura de techo</span>
+        <p>Metálica, tubo estructural 100 × 100 mm — cálculo final pendiente del número de unidades.</p></div>
+      <div class="norma"><span class="eyebrow">Acceso</span>
+        <p>Sin definir — depende de por dónde da la calle real (norte, cota baja, o sur, cota alta).</p></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Módulo de habitación — dimensiones de trabajo</h2>
+    <table class="comp">
+      <thead><tr><th>Elemento</th><th class="num">Medida</th></tr></thead>
+      <tbody>
+        <tr><td>Garaje (ancho × fondo)</td><td class="num">3,00 × 5,50 m</td></tr>
+        <tr><td>Escalera privada</td><td class="num">dentro del garaje</td></tr>
+        <tr><td>Pasillo de servicio central</td><td class="num">1,50 m de ancho</td></tr>
+        <tr><td>Profundidad total del edificio (2 hileras + pasillo)</td><td class="num">≈ 12,50 m</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pend">
+    <h2>Pendientes antes de trazar la distribución final</h2>
+    <ol>
+      <li>Confirmar si 20×25 m es el área de construcción dentro de un lote de 60×120 m, o si hace falta
+      un levantamiento topográfico nuevo sobre los 60×120 m completos.</li>
+      <li>Definir el punto de acceso (norte o sur) según la calle real.</li>
+      <li>Con el terreno confirmado: veredicto verificado por cálculo de cuántas unidades caben de verdad
+      (no a ojo).</li>
+    </ol>
+  </div>
+
+  <footer>Repositorio produccion-studio, rama claude/proyectos-banos-dorado-9k2ply · carpeta hotel-el-dorado/</footer>
+</div>
