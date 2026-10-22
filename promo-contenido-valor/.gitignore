@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Ignore the output video from Git but not videos you import into src/.
+out
+
+# Renders intermedios (frames/clips de prueba); el MP4 final se versiona aparte
+Renders/*.png
+Renders/clip_*.mp4
