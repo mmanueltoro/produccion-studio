@@ -1,0 +1,18 @@
+{
+  "name": "produccion-studio",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "@remotion/cli": "^4.0.537",
+    "@remotion/three": "^4.0.537",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.537",
+    "three": "^0.186.1"
+  }
+}
